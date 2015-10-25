@@ -8,10 +8,17 @@ import java.util.ListIterator;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+
+/**
+ * Brand new List implementation.
+ *
+ * @author Ertuğrul Çetin
+ *         ertu.ctn@gmail.com
+ */
 public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, Serializable {
 
-    transient Node<T> first;
-    transient Node<T> last;
+    private transient Node<T> first;
+    private transient Node<T> last;
 
     private int size;
 
@@ -52,8 +59,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             l.next = last;
         }
 
-        size++;
         modCount++;
+        size++;
 
         return true;
     }
@@ -100,6 +107,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
 
         updateNodesAfterAdd(node);
+
+        modCount++;
+        size++;
     }
 
     private void updateNodesAfterAdd(Node<T> nodeFrom) {
@@ -471,24 +481,21 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
-    //TODO each node's element data pointer will be 0 ??
     public void clear() {
 
         for (Node<T> node = first; node != null; node = node.next) {
 
             T[] data = node.elementData;
 
-            int newStartingIndex = node.elementDataPointer - node.elementData.length;
-
-            node.elementDataPointer = (newStartingIndex) < 0 ? 0 : newStartingIndex;
-
-            for (int i = 0; i < data.length; i++) {
+            for (int i = 0; i < node.elementDataPointer; i++) {
                 data[i] = null;
             }
+
+            node.elementDataPointer = 0;
         }
 
-        size = 0;
         modCount++;
+        size = 0;
     }
 
     public void clearAll() {
@@ -511,8 +518,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         first = initNode;
         last = initNode;
 
-        size = 0;
         modCount++;
+        size = 0;
     }
 
     public void trimToSize() {
@@ -621,6 +628,31 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     @Override
     public ListIterator<T> listIterator(int index) {
         return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+
+        try {
+            GlueList<T> clone = (GlueList<T>) super.clone();
+
+            clone.first = clone.last = null;
+            clone.size = 0;
+            clone.modCount = 0;
+
+            for (Node<T> node = first; node != null; node = node.next) {
+
+                for (int i = 0; i < node.elementDataPointer; i++) {
+                    clone.add(node.elementData[i]);
+                }
+            }
+
+            return clone;
+
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError(e);
+        }
     }
 
     @Override

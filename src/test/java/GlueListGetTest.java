@@ -32,10 +32,15 @@ public class GlueListGetTest {
         assertEquals("osman", list.get(7));
         assertEquals("aysun", list.get(8));
         assertEquals("emre", list.get(9));
-        assertEquals("demir", list.get(10)
-        );
+        assertEquals("demir", list.get(10));
         assertEquals("kıvanç", list.get(11));
         assertEquals(null, list.get(12));
+    }
 
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testGet0Index() {
+
+        GlueList<Integer> list = new GlueList<>();
+        System.out.println(list.get(0));
     }
 }
