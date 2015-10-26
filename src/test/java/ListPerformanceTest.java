@@ -2,63 +2,70 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class ListPerformanceTest {
 
+    int dataCount = 30_000_000;
 
     @Test
     public void testPerformanceTest() {
 
-       /* try {
-            System.out.println("Program is getting ready...");
-            Thread.sleep(5000);
-            System.out.println("Program is starting...");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+    }
 
-            String a = "asda";
-        int b = 2;
-
-        int dataCount = 1_000;
+    @Test
+    public void testGlueList() {
 
         GlueList<Integer> myList = new GlueList<>();
-        ArrayList<Integer> arrList = new ArrayList<>();
-        LinkedList<Integer> linkedList = new LinkedList<>();
 
-        List<Integer> list = new LinkedList<>();
-        for (int i = 0; i < 100_000; i++) {
-            list.add(i);
+        for (int i = 0; i < dataCount; i++) {
+            myList.add(i);
         }
 
         long s, e;
 
-        {
-            s = System.currentTimeMillis();
-            for (int i = 0; i < dataCount; i++) {
-                myList.addAll(list);
-            }
-            e = System.currentTimeMillis();
-            System.out.println("My List: " + (e - s));
+        s = System.currentTimeMillis();
+        for (Integer integer : myList) {
+//                System.out.println(integer);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("My List: " + (e - s));
+    }
+
+    @Test
+    public void testArrayList() {
+
+        ArrayList<Integer> arrList = new ArrayList<>();
+
+        for (int i = 0; i < dataCount; i++) {
+            arrList.add(i);
         }
 
-        /*{
-            s = System.currentTimeMillis();
-            for (int i = 0; i < dataCount; i++) {
-                arrList.addAll(list);
-            }
-            e = System.currentTimeMillis();
-            System.out.println("Array List: " + (e - s));
-        }*/
+        long s, e;
 
-        /*{
-            s = System.currentTimeMillis();
-            for (int i = 0; i < dataCount; i++) {
-                linkedList.addAll(list);
-            }
-            e = System.currentTimeMillis();
-            System.out.println("Linked List: " + (e - s));
-        }*/
+        s = System.currentTimeMillis();
+        for (Integer integer : arrList) {
+//                System.out.println(integer);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("Array List: " + (e - s));
+    }
+
+    @Test
+    public void testLinkedList() {
+
+        LinkedList<Integer> linkedList = new LinkedList<>();
+
+        for (int i = 0; i < dataCount; i++) {
+            linkedList.add(i);
+        }
+
+        long s, e;
+
+        s = System.currentTimeMillis();
+        for (Integer integer : linkedList) {
+//                System.out.println(integer);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("Linked List: " + (e - s));
     }
 }

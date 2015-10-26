@@ -2,11 +2,12 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 
 /**
@@ -43,6 +44,33 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         first = initNode;
         last = initNode;
+    }
+
+    public GlueList(Collection<? extends T> c) {
+
+        Objects.requireNonNull(c);
+
+        Object[] arr = c.toArray();
+
+        int len = arr.length;
+
+        if (len != 0) {
+
+            Node<T> initNode = new Node<>(null, null, 0, len);
+
+            first = initNode;
+            last = initNode;
+
+            System.arraycopy(arr, 0, last.elementData, 0, len);
+
+            last.elementDataPointer += len;
+        } else {
+
+            Node<T> initNode = new Node<>(null, null, 0, DEFAULT_CAPACITY);
+
+            first = initNode;
+            last = initNode;
+        }
     }
 
     @Override
@@ -605,19 +633,54 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     }
 
     @Override
+    public ListIterator<T> listIterator() {
+//        return new ListItr();
+        return null;
+    }
+
+    @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Itr();
+    }
 
-            @Override
-            public boolean hasNext() {
-                return false;
+    private class Itr implements Iterator<T> {
+
+        Node<T> node = first;
+        int i = 0;
+        int j = 0;
+        int expectedModCount = modCount;
+        int elementDataPointer = node.elementDataPointer;
+
+        @Override
+        public boolean hasNext() {
+            return node != null && node.elementDataPointer > 0;
+        }
+
+        @Override
+        public T next() {
+
+            checkForComodification();
+
+            if (j++ >= size) {
+                throw new NoSuchElementException();
             }
 
-            @Override
-            public T next() {
-                return null;
+            T val = node.elementData[i++];
+
+            if (i >= elementDataPointer) {
+                node = node.next;
+                i = 0;
+                elementDataPointer = (node != null) ? node.elementDataPointer : 0;
             }
-        };
+
+            return val;
+        }
+
+        final void checkForComodification() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+        }
     }
 
     @Override
@@ -625,19 +688,27 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return size;
     }
 
-    @Override
-    public ListIterator<T> listIterator(int index) {
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
 
         try {
             GlueList<T> clone = (GlueList<T>) super.clone();
 
-            clone.first = clone.last = null;
+            for (Node<T> node = clone.first; node != null; ) {
+
+                Node<T> next = node.next;
+
+                node.next = null;
+                node.pre = null;
+                node.elementData = null;
+
+                node = next;
+            }
+
+            int capacity = (initialCapacity > 1) ? initialCapacity : DEFAULT_CAPACITY;
+
+            clone.first = clone.last = new Node<T>(null, null, 0, capacity);
             clone.size = 0;
             clone.modCount = 0;
 
@@ -649,25 +720,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             }
 
             return clone;
-
         } catch (CloneNotSupportedException e) {
             throw new InternalError(e);
         }
-    }
-
-    @Override
-    public String toString() {
-
-        StringJoiner sc = new StringJoiner(",", "[", "]");
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            T[] elementData = node.elementData;
-            for (int i = 0; i < elementData.length; i++) {
-                sc.add(String.valueOf(elementData[i]));
-            }
-        }
-
-        return sc.toString();
     }
 
     private static class Node<T> {
