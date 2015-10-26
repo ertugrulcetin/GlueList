@@ -49,7 +49,7 @@ public class CuriousThingsTest {
         list.add(13);
         list.add(14);
 
-        list.clearAll();
+        list.clear();
         System.out.println();
     }
 

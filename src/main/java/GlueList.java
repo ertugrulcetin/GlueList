@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -101,6 +104,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         Node<T> node = getNode(index);
 
+        //if it is last and has extra space for element...
         if (node == last && node.elementData.length - node.elementDataPointer > 0) {
 
             int innerArrIndex = index - node.startingIndex;
@@ -509,24 +513,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
+    @Override
     public void clear() {
-
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            T[] data = node.elementData;
-
-            for (int i = 0; i < node.elementDataPointer; i++) {
-                data[i] = null;
-            }
-
-            node.elementDataPointer = 0;
-        }
-
-        modCount++;
-        size = 0;
-    }
-
-    public void clearAll() {
 
         for (Node<T> node = first; node != null; ) {
 
@@ -538,6 +526,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             node = next;
         }
+
+        first = last = null;
 
         int capacity = (initialCapacity > 1) ? initialCapacity : DEFAULT_CAPACITY;
 
@@ -554,10 +544,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         int pointer = last.elementDataPointer;
         int arrLen = last.elementData.length;
-        if (pointer < arrLen) {
-            if (pointer != 0) {
-                last.elementData = Arrays.copyOf(last.elementData, pointer);
-            }
+
+        if (pointer < arrLen && pointer != 0) {
+            last.elementData = Arrays.copyOf(last.elementData, pointer);
         }
     }
 
@@ -633,12 +622,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     }
 
     @Override
-    public ListIterator<T> listIterator() {
-//        return new ListItr();
-        return null;
-    }
-
-    @Override
     public Iterator<T> iterator() {
         return new Itr();
     }
@@ -646,8 +629,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     private class Itr implements Iterator<T> {
 
         Node<T> node = first;
-        int i = 0;
-        int j = 0;
+        int i = 0;//inner-array index
+        int j = 0;//total index
         int expectedModCount = modCount;
         int elementDataPointer = node.elementDataPointer;
 
@@ -676,10 +659,83 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return val;
         }
 
+        @Override
+        public void remove() {
+
+        }
+
         final void checkForComodification() {
             if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
+        }
+    }
+
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        return null;
+    }
+
+    @Override
+    public ListIterator<T> listIterator() {
+        return new ListItr(0);
+    }
+
+    //TODO override iterator methods ?
+    private class ListItr extends Itr implements ListIterator<T> {
+
+        Node<T> node = last;
+        int cursor;
+        int i = node.elementDataPointer;//inner-array last index
+        int j = size;
+        int expectedModCount = modCount;
+
+        public ListItr(int index) {
+            this.cursor = index;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return node != null && i > 0;
+        }
+
+        @Override
+        public T previous() {
+
+            checkForComodification();
+
+            if (j-- <= 0) {
+                throw new NoSuchElementException();
+            }
+
+            T val = node.elementData[--i];
+
+            if (i <= 0) {
+                node = node.pre;
+                i = (node != null) ? node.elementDataPointer : 0;
+            }
+
+            return val;
+        }
+
+        @Override
+        public int nextIndex() {
+            return 0;
+        }
+
+        @Override
+        public int previousIndex() {
+            return 0;
+        }
+
+        @Override
+        public void set(T t) {
+
+        }
+
+        @Override
+        public void add(T t) {
+
         }
     }
 
@@ -695,22 +751,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         try {
             GlueList<T> clone = (GlueList<T>) super.clone();
 
-            for (Node<T> node = clone.first; node != null; ) {
-
-                Node<T> next = node.next;
-
-                node.next = null;
-                node.pre = null;
-                node.elementData = null;
-
-                node = next;
-            }
-
-            int capacity = (initialCapacity > 1) ? initialCapacity : DEFAULT_CAPACITY;
-
-            clone.first = clone.last = new Node<T>(null, null, 0, capacity);
-            clone.size = 0;
-            clone.modCount = 0;
+            clone.clear();
 
             for (Node<T> node = first; node != null; node = node.next) {
 
@@ -719,9 +760,44 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 }
             }
 
+            clone.modCount = 0;
+
             return clone;
         } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            throw new InternalError();
+        }
+    }
+
+    private void writeObject(ObjectOutputStream s) throws IOException {
+
+        int expectedModCount = modCount;
+
+        s.defaultWriteObject();
+
+        s.writeInt(size);
+
+        for (Node<T> node = first; node != null; node = node.next) {
+            for (int i = 0; i < node.elementDataPointer; i++) {
+                s.writeObject(node.elementData[i]);
+            }
+        }
+
+        if (modCount != expectedModCount) {
+            throw new ConcurrentModificationException();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+
+        clear();
+
+        s.defaultReadObject();
+
+        int size = s.readInt();
+
+        for (int i = 0; i < size; i++) {
+            last.add((T) s.readObject());
         }
     }
 
