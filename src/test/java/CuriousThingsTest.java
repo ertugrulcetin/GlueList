@@ -2,11 +2,27 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
+
+
+    @Test
+    public void testArrayListListIterator() {
+
+        List<Integer> a = new LinkedList<>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+
+        ListIterator<Integer> listIterator = a.listIterator();
+        System.out.println(listIterator.next());
+
+    }
 
     @Test
     public void testArrayListRemoveVal() {
@@ -125,7 +141,7 @@ public class CuriousThingsTest {
         }
     }
 
-    private static class Aga{
+    private static class Aga {
         private int a;
         private int b;
         private int c;

@@ -13,9 +13,16 @@ public class GlueListListIteratorTest {
             list.add(i);
         }
 
-        for (ListIterator<Integer> listIterator = list.listIterator(); listIterator.hasPrevious(); ) {
-            System.out.println(listIterator.previous());
-        }
+        ListIterator<Integer> listIterator = list.listIterator();
+        System.out.println(listIterator.next());
+        System.out.println(listIterator.previous());
+        System.out.println(listIterator.next());
+        System.out.println(listIterator.next());
+        System.out.println(listIterator.next());
+        System.out.println(listIterator.previous());
+        System.out.println(listIterator.previous());
+        System.out.println(listIterator.previous());
+
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -26,7 +33,7 @@ public class GlueListListIteratorTest {
         a.add(2);
 
         ListIterator<Integer> listIterator = a.listIterator();
-        System.out.println(listIterator.previous());
+        System.out.println(listIterator.next());
         System.out.println(listIterator.previous());
         System.out.println(listIterator.previous());
 

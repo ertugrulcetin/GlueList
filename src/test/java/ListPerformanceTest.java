@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class ListPerformanceTest {
 
-    int dataCount = 30_000_000;
+    int dataCount = 10_000_000;
 
     @Test
     public void testPerformanceTest() {
@@ -15,16 +15,16 @@ public class ListPerformanceTest {
     @Test
     public void testGlueList() {
 
-        GlueList<Integer> myList = new GlueList<>();
+        GlueList<String> myList = new GlueList<>();
 
         for (int i = 0; i < dataCount; i++) {
-            myList.add(i);
+            myList.add(""+i);
         }
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (Integer integer : myList) {
+        for (String integer : myList) {
 //                System.out.println(integer);
         }
         e = System.currentTimeMillis();
@@ -34,16 +34,16 @@ public class ListPerformanceTest {
     @Test
     public void testArrayList() {
 
-        ArrayList<Integer> arrList = new ArrayList<>();
+        ArrayList<String> arrList = new ArrayList<>();
 
         for (int i = 0; i < dataCount; i++) {
-            arrList.add(i);
+            arrList.add(""+i);
         }
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (Integer integer : arrList) {
+        for (String integer : arrList) {
 //                System.out.println(integer);
         }
         e = System.currentTimeMillis();
@@ -53,16 +53,16 @@ public class ListPerformanceTest {
     @Test
     public void testLinkedList() {
 
-        LinkedList<Integer> linkedList = new LinkedList<>();
+        LinkedList<String> linkedList = new LinkedList<>();
 
         for (int i = 0; i < dataCount; i++) {
-            linkedList.add(i);
+            linkedList.add(""+i);
         }
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (Integer integer : linkedList) {
+        for (String integer : linkedList) {
 //                System.out.println(integer);
         }
         e = System.currentTimeMillis();

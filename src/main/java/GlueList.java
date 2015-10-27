@@ -144,19 +144,19 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         size++;
     }
 
+    private void rangeCheckForAdd(int index) {
+
+        if (index > size || index < 0) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+    }
+
     private void updateNodesAfterAdd(Node<T> nodeFrom) {
 
         for (Node<T> node = nodeFrom.next; node != null; node = node.next) {
 
             node.startingIndex++;
             node.endingIndex++;
-        }
-    }
-
-    private void rangeCheckForAdd(int index) {
-
-        if (index > size || index < 0) {
-            throw new ArrayIndexOutOfBoundsException(index);
         }
     }
 
@@ -282,6 +282,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
+    //TODO optimize ?
     @Override
     public T get(int index) {
 
@@ -356,6 +357,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return indexOf(o) != -1;
     }
 
+    //TODO when node does not contain any value it's going to be discarded.Then its going be NULL so if all nodes going to be deleted what would be then ? You need to solve null issue...
     @Override
     public T remove(int index) {
 
@@ -629,14 +631,18 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     private class Itr implements Iterator<T> {
 
         Node<T> node = first;
+
         int i = 0;//inner-array index
-        int j = 0;//total index
+        int j = 0;//total index -> cursor
+
+        int lastReturn = -1;
+
         int expectedModCount = modCount;
-        int elementDataPointer = node.elementDataPointer;
+        int elementDataPointer = (node != null) ? node.elementDataPointer : 0;
 
         @Override
         public boolean hasNext() {
-            return node != null && node.elementDataPointer > 0;
+            return j != size;
         }
 
         @Override
@@ -644,7 +650,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             checkForComodification();
 
-            if (j++ >= size) {
+            if (j >= size) {
                 throw new NoSuchElementException();
             }
 
@@ -656,12 +662,34 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 elementDataPointer = (node != null) ? node.elementDataPointer : 0;
             }
 
+            lastReturn = j++;
+
             return val;
         }
 
+        //TODO getting null issue.When we delete all values first and last Node becomes NULL
         @Override
         public void remove() {
 
+            if (lastReturn < 0) {
+                throw new IllegalStateException();
+            }
+
+            checkForComodification();
+
+            try {
+                GlueList.this.remove(lastReturn);
+
+                j = lastReturn;
+
+                lastReturn = -1;
+
+                i = (--i < 0) ? 0 : i;
+
+                expectedModCount = modCount;
+            } catch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificationException();
+            }
         }
 
         final void checkForComodification() {
@@ -681,22 +709,15 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return new ListItr(0);
     }
 
-    //TODO override iterator methods ?
     private class ListItr extends Itr implements ListIterator<T> {
 
-        Node<T> node = last;
-        int cursor;
-        int i = node.elementDataPointer;//inner-array last index
-        int j = size;
-        int expectedModCount = modCount;
-
         public ListItr(int index) {
-            this.cursor = index;
+
         }
 
         @Override
         public boolean hasPrevious() {
-            return node != null && i > 0;
+            return j != 0;
         }
 
         @Override
@@ -704,38 +725,67 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             checkForComodification();
 
-            if (j-- <= 0) {
+            if (j <= 0) {
                 throw new NoSuchElementException();
             }
 
             T val = node.elementData[--i];
 
-            if (i <= 0) {
+            if (i < 0) {
                 node = node.pre;
                 i = (node != null) ? node.elementDataPointer : 0;
             }
+
+            lastReturn = j--;
 
             return val;
         }
 
         @Override
         public int nextIndex() {
-            return 0;
+            return j;
         }
 
         @Override
         public int previousIndex() {
-            return 0;
+            return j - 1;
         }
 
         @Override
         public void set(T t) {
 
+            if (lastReturn < 0) {
+                throw new IllegalStateException();
+            }
+
+            checkForComodification();
+
+            try {
+                GlueList.this.set(lastReturn, t);
+            } catch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificationException();
+            }
         }
 
+        //TODO check i . is it work correctly ? Check add(int,element) ?
         @Override
         public void add(T t) {
 
+            checkForComodification();
+
+            try {
+                int temp = j;
+
+                GlueList.this.add(temp, t);
+
+                j = temp + 1;
+
+                lastReturn = -1;
+
+                expectedModCount = modCount;
+            } catch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificationException();
+            }
         }
     }
 
