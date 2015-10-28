@@ -30,6 +30,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private static final int DEFAULT_CAPACITY = 10;
 
+    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
     public GlueList() {
 
@@ -41,7 +42,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     public GlueList(int initialCapacity) {
 
-        this.initialCapacity = initialCapacity;
+        this.initialCapacity = (initialCapacity > MAX_ARRAY_SIZE) ? MAX_ARRAY_SIZE : initialCapacity;
 
         Node<T> initNode = new Node<>(null, null, 0, initialCapacity);
 
@@ -74,6 +75,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             first = initNode;
             last = initNode;
         }
+
+        modCount++;
+        size += len;
     }
 
     @Override
@@ -654,6 +658,10 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 throw new NoSuchElementException();
             }
 
+            if (j >= last.endingIndex + 1) {
+                throw new ConcurrentModificationException();
+            }
+
             T val = node.elementData[i++];
 
             if (i >= elementDataPointer) {
@@ -727,6 +735,10 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             if (j <= 0) {
                 throw new NoSuchElementException();
+            }
+
+            if (j >= last.endingIndex + 1) {
+                throw new ConcurrentModificationException();
             }
 
             T val = node.elementData[--i];
