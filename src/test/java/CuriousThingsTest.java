@@ -180,4 +180,22 @@ public class CuriousThingsTest {
             this.c = c;
         }
     }
+
+    @Test
+    public void test(){
+
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+
+        GlueList<String> a = new GlueList<>();
+        a.addAll(0,list);
+
+//        ListIterator<String> listIterator = a.listIterator();
+//        listIterator.add("Selam");
+
+        System.out.println(a);
+
+    }
 }

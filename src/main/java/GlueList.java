@@ -32,6 +32,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
+    //TODO add feature -> user can decide list going to allow nulls or not.
     public GlueList() {
 
         Node<T> initNode = new Node<>(null, null, 0, DEFAULT_CAPACITY);
@@ -106,19 +107,32 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         rangeCheckForAdd(index);
 
-        Node<T> node = getNode(index);
+        Node<T> node = getNodeForAdd(index);
+
+        if (node == null) {
+
+            Node<T> l = last;
+
+            Node<T> newNode = new Node<>(l, null, size);
+
+            last = newNode;
+
+            l.next = last;
+
+            node = newNode;
+        }
 
         //if it is last and has extra space for element...
         if (node == last && node.elementData.length - node.elementDataPointer > 0) {
 
             int innerArrIndex = index - node.startingIndex;
 
-            System.arraycopy(node.elementData, innerArrIndex, node.elementData, innerArrIndex + 1, node.elementData.length - innerArrIndex);
+            System.arraycopy(node.elementData, innerArrIndex, node.elementData, innerArrIndex + 1, node.elementDataPointer - innerArrIndex);
 
-            node.elementData[index] = element;
+            node.elementData[innerArrIndex] = element;
 
-            if (index > 0) {
-                System.arraycopy(node.elementData, 0, node.elementData, index, index);
+            if (innerArrIndex > 0) {
+                System.arraycopy(node.elementData, 0, node.elementData, 0, innerArrIndex);
             }
 
             node.elementDataPointer++;
@@ -129,12 +143,12 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             int innerArrIndex = index - node.startingIndex;
 
-            System.arraycopy(node.elementData, innerArrIndex, newElementData, innerArrIndex + 1, node.elementData.length - innerArrIndex);
+            System.arraycopy(node.elementData, innerArrIndex, newElementData, innerArrIndex + 1, node.elementDataPointer - innerArrIndex);
 
-            newElementData[index] = element;
+            newElementData[innerArrIndex] = element;
 
-            if (index > 0) {
-                System.arraycopy(node.elementData, 0, newElementData, index, index);
+            if (innerArrIndex > 0) {
+                System.arraycopy(node.elementData, 0, newElementData, 0, innerArrIndex);
             }
 
             node.elementData = newElementData;
@@ -498,6 +512,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
+    //TODO remove rangecheck...beacuse methods using this have rangeCheck...
     private Node<T> getNode(int index) {
 
         rangeCheck(index);
@@ -511,6 +526,21 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             node = node.next;
         } while (true);
+    }
+
+    private Node<T> getNodeForAdd(int index) {
+
+        Node<T> node = first;
+        do {
+
+            if (node.startingIndex <= index && index <= node.endingIndex) {
+                return node;
+            }
+
+            node = node.next;
+        } while (node != null);
+
+        return null;
     }
 
     private void rangeCheck(int index) {
@@ -862,6 +892,30 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         for (int i = 0; i < size; i++) {
             last.add((T) s.readObject());
         }
+    }
+
+    //TODO for test
+    void printClustered() {
+
+        StringBuilder str = new StringBuilder();
+
+        for (Node<T> node = first; node != null; node = node.next) {
+
+            StringBuilder s = new StringBuilder("[");
+
+            if (node.elementDataPointer > 0) {
+                s.append(node.elementData[0]);
+            }
+
+            for (int i = 1; i < node.elementData.length; i++) {
+                s.append(",").append(node.elementData[i]);
+            }
+            s.append("]");
+
+            str.append(s);
+        }
+
+        System.out.println(str);
     }
 
     static class Node<T> {
