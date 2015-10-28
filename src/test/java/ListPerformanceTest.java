@@ -15,17 +15,16 @@ public class ListPerformanceTest {
     @Test
     public void testGlueList() {
 
-        GlueList<String> myList = new GlueList<>();
-
-        for (int i = 0; i < dataCount; i++) {
-            myList.add(""+i);
-        }
+        GlueList<Integer> myList = new GlueList<>();
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (String integer : myList) {
+        /*for (String integer : myList) {
 //                System.out.println(integer);
+        }*/
+        for (int i = 0; i < dataCount; i++) {
+            myList.add(i);
         }
         e = System.currentTimeMillis();
         System.out.println("My List: " + (e - s));
@@ -34,17 +33,17 @@ public class ListPerformanceTest {
     @Test
     public void testArrayList() {
 
-        ArrayList<String> arrList = new ArrayList<>();
+        ArrayList<Integer> arrList = new ArrayList<>();
 
-        for (int i = 0; i < dataCount; i++) {
-            arrList.add(""+i);
-        }
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (String integer : arrList) {
+       /* for (String integer : arrList) {
 //                System.out.println(integer);
+        }*/
+        for (int i = 0; i < dataCount; i++) {
+            arrList.add(i);
         }
         e = System.currentTimeMillis();
         System.out.println("Array List: " + (e - s));
@@ -53,17 +52,17 @@ public class ListPerformanceTest {
     @Test
     public void testLinkedList() {
 
-        LinkedList<String> linkedList = new LinkedList<>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
 
-        for (int i = 0; i < dataCount; i++) {
-            linkedList.add(""+i);
-        }
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (String integer : linkedList) {
+       /* for (String integer : linkedList) {
 //                System.out.println(integer);
+        }*/
+        for (int i = 0; i < dataCount; i++) {
+            linkedList.add(i);
         }
         e = System.currentTimeMillis();
         System.out.println("Linked List: " + (e - s));

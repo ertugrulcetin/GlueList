@@ -6,7 +6,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class GlueListConstructorTest {
+public class GlueList_1_ConstructorTest {
 
     @Test
     public void test_default_constructor() {
@@ -14,6 +14,7 @@ public class GlueListConstructorTest {
         GlueList<String> glueList = new GlueList<>();
 
         assertEquals(0, glueList.size());
+        assertEquals(10, glueList.last.getElementDataLength());
     }
 
     @Test
@@ -22,13 +23,19 @@ public class GlueListConstructorTest {
         GlueList<String> glueList = new GlueList<>(20);
 
         assertEquals(0, glueList.size());
+        assertEquals(20, glueList.last.getElementDataLength());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test_initial_capacity_fails() {
+    public void test_initial_capacity_fail() {
 
         GlueList<String> glueList = new GlueList<>(-1);
+    }
 
+    @Test(expected = NullPointerException.class)
+    public void test_collection_constructor_fail() {
+
+        GlueList<String> glueList = new GlueList<>(null);
     }
 
     @Test

@@ -21,8 +21,8 @@ import java.util.Objects;
  */
 public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, Serializable {
 
-    private transient Node<T> first;
-    private transient Node<T> last;
+    transient Node<T> first;
+    transient Node<T> last;
 
     private int size;
 
@@ -286,7 +286,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
-    //TODO optimize ?
+    //TODO optimize ? rangeCheck does not work properly for add operations...
+    //hold one additional preVisitedNode if it's closer to searching node then go with it ?
     @Override
     public T get(int index) {
 
@@ -863,7 +864,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
-    private static class Node<T> {
+    static class Node<T> {
 
         Node<T> pre;
         Node<T> next;
@@ -913,6 +914,27 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         void add(T element) {
             elementData[elementDataPointer++] = element;
+        }
+
+        // Getters for tests
+        int getElementDataLength() {
+            return elementData.length;
+        }
+
+        public int getStartingIndex() {
+            return startingIndex;
+        }
+
+        public int getEndingIndex() {
+            return endingIndex;
+        }
+
+        public T[] getElementData() {
+            return elementData;
+        }
+
+        public int getElementDataPointer() {
+            return elementDataPointer;
         }
     }
 }
