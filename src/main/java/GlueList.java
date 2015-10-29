@@ -194,15 +194,15 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         if (size == 0) {
 
+            //TODO check initial size -> endingIndex
             if (initialCapacity >= len) {
                 System.arraycopy(collection, 0, last.elementData, 0, len);
             } else {
                 last.elementData = Arrays.copyOf((T[]) collection, len);
+                last.endingIndex = len - 1;
             }
 
             last.elementDataPointer += len;
-            last.startingIndex = 0;
-            last.endingIndex = len - 1;
 
             modCount++;
             size += len;
@@ -210,8 +210,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return true;
         }
 
-        T[] elementData = last.elementData;
-        int elementDataLen = elementData.length;
+        //TODO elementSize name refactor -> last.elementDataPointer ?
+        int elementDataLen = last.elementData.length;
         int elementSize = last.elementDataPointer;
 
         int remainedStorage = elementDataLen - elementSize;
@@ -227,8 +227,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             System.arraycopy(collection, 0, newNode.elementData, 0, len);
 
-            newNode.startingIndex = size;
-            newNode.endingIndex = size + len - 1;
             newNode.elementDataPointer += len;
 
             last = newNode;
@@ -256,7 +254,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             System.arraycopy(collection, 0, last.elementData, elementSize, remainedStorage);
 
-            last.elementDataPointer += len;
+            last.elementDataPointer += remainedStorage;
             size += remainedStorage;
 
             int newLen = (size >>> 1);
@@ -268,17 +266,15 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             Node<T> newNode = new Node<>(l, null, size, initialLen);
 
-            System.arraycopy(collection, 0, newNode.elementData, 0, remainedDataLen);
+            System.arraycopy(collection, remainedStorage, newNode.elementData, 0, remainedDataLen);
 
-            newNode.startingIndex = size;
-            newNode.endingIndex = size + remainedDataLen - 1;
             newNode.elementDataPointer += remainedDataLen;
 
             last = newNode;
             l.next = last;
 
             modCount++;
-            size += len;
+            size += remainedDataLen;
         }
 
         return false;
@@ -319,7 +315,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             int index = 0;
             for (Node<T> node = first; node != null; node = node.next) {
-                for (int i = 0; i < node.elementData.length; i++) {
+                for (int i = 0; i < node.elementDataPointer; i++) {
                     if (node.elementData[i] == null) {
                         return index;
                     }
@@ -330,7 +326,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             int index = 0;
             for (Node<T> node = first; node != null; node = node.next) {
-                for (int i = 0; i < node.elementData.length; i++) {
+                for (int i = 0; i < node.elementDataPointer; i++) {
                     if (o.equals(node.elementData[i])) {
                         return index;
                     }

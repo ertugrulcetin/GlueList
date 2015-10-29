@@ -1,7 +1,5 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 
 public class GlueList_3_AddWithIndexTest {
@@ -47,12 +45,64 @@ public class GlueList_3_AddWithIndexTest {
     }
 
     @Test
-    public void test() {
+    public void test_add_amid() {
 
-        ArrayList<String> a = new ArrayList<>();
-        a.add("1");
-        a.add("2");
+        GlueList<String> glueList = new GlueList<>(2);
 
-        a.add(2, "3");
+        glueList.add("a");
+        glueList.add("b");
+        assertEquals(2, glueList.size());
+
+        glueList.add("c");
+        glueList.add("d");
+        assertEquals(4, glueList.size());
+
+        glueList.add("e");
+        glueList.add("f");
+        assertEquals(6, glueList.size());
+
+        glueList.add("g");
+        glueList.add("h");
+        assertEquals(8, glueList.size());
+
+        glueList.add("i");
+        glueList.add("j");
+        assertEquals(10, glueList.size());
+
+        glueList.add(2, "x");
+        glueList.add(3, "y");
+        assertEquals(12, glueList.size());
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void test_add_fail() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+
+        glueList.add("a");
+        glueList.add("b");
+        assertEquals(2, glueList.size());
+
+        glueList.add(3, "c");
+    }
+
+    @Test
+    public void test_add_big_data() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+
+        for (int i = 0; i < 100; i++) {
+            glueList.add(String.valueOf("a"));
+        }
+
+        glueList.add(9, "X");
+        glueList.add(14, "X");
+        assertEquals(102, glueList.size());
+
+        assertEquals("X", glueList.get(9));
+        assertEquals("X", glueList.get(14));
+
+        glueList.add(102, "C");
+        assertEquals(103, glueList.size());
     }
 }
