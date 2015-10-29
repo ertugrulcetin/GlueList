@@ -5,7 +5,12 @@ import java.util.LinkedList;
 
 public class ListPerformanceTest {
 
-    int dataCount = 10_000_000;
+    //    int dataCount = 1_000;
+//    int dataCount = 10_000;
+//    int dataCount = 100_000;
+//    int dataCount = 1_000_000;
+    int dataCount = 5_000_000;
+//    int dataCount = 10_000_000;
 
     @Test
     public void testPerformanceTest() {

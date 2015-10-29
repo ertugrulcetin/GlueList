@@ -8,6 +8,15 @@ import static org.junit.Assert.assertNotEquals;
 
 public class GlueList_1_ConstructorTest {
 
+
+    @Test
+    public void test() {
+
+        GlueList<String> glueList = new GlueList<>();
+
+        assertEquals(true, glueList.first == glueList.last);
+    }
+
     @Test
     public void test_default_constructor() {
 

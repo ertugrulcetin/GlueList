@@ -10,6 +10,61 @@ import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
 
+    @Test
+    public void testGet() {
+
+        GlueList<String> glueList = new GlueList<>();
+
+        for (int i = 0; i < 1_000_000; i++) {
+            glueList.add("" + i);
+        }
+
+        long s, e;
+
+        s = System.currentTimeMillis();
+        for (int i = 0; i < 1_000_000; i++) {
+            glueList.get(500_000);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("Get: " + (e - s));
+    }
+
+    @Test
+    public void testGetArayList(){
+
+        ArrayList<String> glueList = new ArrayList<>();
+
+        for (int i = 0; i < 10_000_000; i++) {
+            glueList.add("" + i);
+        }
+
+        long s, e;
+
+        s = System.currentTimeMillis();
+        for (int i = 0; i < 5_000_000; i++) {
+            glueList.get(9_999_000);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("ArrayList Get: " + (e - s));
+    }
+
+    @Test
+    public void testGetLinkedList() {
+        LinkedList<String> glueList = new LinkedList<>();
+
+        for (int i = 0; i < 1_000_000; i++) {
+            glueList.add("" + i);
+        }
+
+        long s, e;
+
+        s = System.currentTimeMillis();
+        for (int i = 0; i < 1_0; i++) {
+            glueList.get(500_999);
+        }
+        e = System.currentTimeMillis();
+        System.out.println("Get: " + (e - s));
+    }
 
     @Test
     public void testArrayListListIterator() {
@@ -21,7 +76,6 @@ public class CuriousThingsTest {
 
         ListIterator<Integer> listIterator = a.listIterator();
         System.out.println(listIterator.next());
-
     }
 
     @Test
@@ -182,7 +236,7 @@ public class CuriousThingsTest {
     }
 
     @Test
-    public void test(){
+    public void test() {
 
         List<String> list = new ArrayList<>();
         list.add("1");
@@ -190,12 +244,11 @@ public class CuriousThingsTest {
         list.add("3");
 
         GlueList<String> a = new GlueList<>();
-        a.addAll(0,list);
+        a.addAll(0, list);
 
 //        ListIterator<String> listIterator = a.listIterator();
 //        listIterator.add("Selam");
 
         System.out.println(a);
-
     }
 }

@@ -12,6 +12,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.min;
+
 
 /**
  * Brand new List implementation.
@@ -194,7 +197,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         if (size == 0) {
 
-            //TODO check initial size -> endingIndex
             if (initialCapacity >= len) {
                 System.arraycopy(collection, 0, last.elementData, 0, len);
             } else {
@@ -296,8 +298,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
-    //TODO optimize ? rangeCheck does not work properly for add operations...
-    //hold one additional preVisitedNode if it's closer to searching node then go with it ?
     @Override
     public T get(int index) {
 
@@ -311,9 +311,10 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     @Override
     public int indexOf(Object o) {
 
+        int index = 0;
+
         if (o == null) {
 
-            int index = 0;
             for (Node<T> node = first; node != null; node = node.next) {
                 for (int i = 0; i < node.elementDataPointer; i++) {
                     if (node.elementData[i] == null) {
@@ -324,7 +325,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             }
         } else {
 
-            int index = 0;
             for (Node<T> node = first; node != null; node = node.next) {
                 for (int i = 0; i < node.elementDataPointer; i++) {
                     if (o.equals(node.elementData[i])) {
@@ -341,8 +341,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     @Override
     public int lastIndexOf(Object o) {
 
+        int index = 0;
+
         if (o == null) {
-            int index = 0;
             for (Node<T> node = last; node != null; node = node.pre) {
                 for (int i = node.elementDataPointer - 1; i >= 0; i--) {
                     if (node.elementData[i] == null) {
@@ -353,7 +354,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             }
         } else {
 
-            int index = 0;
             for (Node<T> node = last; node != null; node = node.pre) {
                 for (int i = node.elementDataPointer - 1; i >= 0; i--) {
                     if (o.equals(node.elementData[i])) {
@@ -508,35 +508,50 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
-    //TODO remove rangecheck...beacuse methods using this have rangeCheck...
     private Node<T> getNode(int index) {
 
-        rangeCheck(index);
+        int firstStartingIndex = first.startingIndex;
+        int firstEndingIndex = first.endingIndex;
 
-        Node<T> node = first;
-        do {
+        int firstMinDistance = min(abs(index - firstStartingIndex), abs(index - firstEndingIndex));
 
-            if (node.startingIndex <= index && index <= node.endingIndex) {
-                return node;
-            }
+        int lastStartingIndex = last.startingIndex;
+        int lastEndingIndex = last.endingIndex;
 
-            node = node.next;
-        } while (true);
+        int lastMinDistance = min(abs(index - lastStartingIndex), abs(index - lastEndingIndex));
+
+        if (firstMinDistance <= lastMinDistance) {
+
+            Node<T> node = first;
+            do {
+
+                if (node.startingIndex <= index && index <= node.endingIndex) {
+                    return node;
+                }
+
+                node = node.next;
+            } while (true);
+        } else {
+
+            Node<T> node = last;
+            do {
+
+                if (node.startingIndex <= index && index <= node.endingIndex) {
+                    return node;
+                }
+
+                node = node.pre;
+            } while (true);
+        }
     }
 
     private Node<T> getNodeForAdd(int index) {
 
-        Node<T> node = first;
-        do {
+        if (index == size) {
+            return null;
+        }
 
-            if (node.startingIndex <= index && index <= node.endingIndex) {
-                return node;
-            }
-
-            node = node.next;
-        } while (node != null);
-
-        return null;
+        return getNode(index);
     }
 
     private void rangeCheck(int index) {
