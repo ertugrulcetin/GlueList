@@ -13,8 +13,8 @@ public class GlueList_7_Remove {
         glueList.add("3");
         glueList.add("4");
 
-        System.out.println(glueList.remove(2));
-        System.out.println(glueList.remove(2));
+        glueList.remove(2);
+        glueList.remove(2);
 
         assertEquals(true, glueList.first == glueList.last);
     }
@@ -37,7 +37,24 @@ public class GlueList_7_Remove {
         assertEquals(0, glueList.size());
 
         assertEquals(true, glueList.first == glueList.last);
+    }
 
-        glueList.printClustered();
+    @Test
+    public void test_remove_and_last_node_has_2_cell() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+        glueList.add("1");
+        glueList.add("2");
+        glueList.add("3");
+        glueList.add("4");
+        assertEquals(4, glueList.size());
+
+        glueList.remove(0);
+        glueList.remove(1);
+        assertEquals(2, glueList.size());
+
+        glueList.remove(1);
+        glueList.remove(0);
+        assertEquals(0, glueList.size());
     }
 }
