@@ -20,9 +20,9 @@ public class TestUtil {
         }
     }
 
-    public static <T> boolean isNodesStartingAndEndingIndexesAreTrue(GlueList.Node<T> from) {
+    public static <T> boolean isNodesStartingAndEndingIndexesAreTrue(GlueList<T> glueList) {
 
-        for (GlueList.Node<T> node = from; node != null; node = node.next) {
+        for (GlueList.Node<T> node = glueList.first; node != null; node = node.next) {
 
             GlueList.Node<T> nodeNext = node.next;
             if (nodeNext == null) {
@@ -37,10 +37,10 @@ public class TestUtil {
         return true;
     }
 
-    public static <T> boolean isNodesElementDataPointerSameWithNodeArrayLength(GlueList.Node<T> from, GlueList.Node<T> last) {
+    public static <T> boolean isNodesElementDataPointerSameWithNodeArrayLength(GlueList<T> glueList) {
 
         //goes until last.Because last may not been loaded
-        for (GlueList.Node<T> node = from; node != last; node = node.next) {
+        for (GlueList.Node<T> node = glueList.first; node != glueList.last; node = node.next) {
 
             if (node.elementDataPointer != node.elementData.length) {
                 return false;
