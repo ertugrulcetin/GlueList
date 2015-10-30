@@ -17,6 +17,8 @@ public class GlueList_7_Remove {
         glueList.remove(2);
 
         assertEquals(true, glueList.first == glueList.last);
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -31,12 +33,16 @@ public class GlueList_7_Remove {
         glueList.remove(3);
         glueList.remove(2);
         assertEquals(2, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
 
         glueList.remove(1);
         glueList.remove(0);
         assertEquals(0, glueList.size());
 
         assertEquals(true, glueList.first == glueList.last);
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -52,9 +58,16 @@ public class GlueList_7_Remove {
         glueList.remove(0);
         glueList.remove(1);
         assertEquals(2, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
 
         glueList.remove(1);
         glueList.remove(0);
         assertEquals(0, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 }

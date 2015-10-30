@@ -17,13 +17,16 @@ public class GlueList_4_AddAllTest {
     @Test
     public void test_add_all_false() {
 
-        GlueList<String> a = new GlueList<>();
+        GlueList<String> glueList = new GlueList<>();
 
         ArrayList<String> arrayList = new ArrayList<>();
 
-        boolean result = a.addAll(arrayList);
+        boolean result = glueList.addAll(arrayList);
 
         assertEquals(false, result);
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -40,6 +43,8 @@ public class GlueList_4_AddAllTest {
 
         assertTrue(glueList.equals(arrayList));
         assertEquals(100, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -56,6 +61,8 @@ public class GlueList_4_AddAllTest {
 
         assertTrue(glueList.equals(arrayList));
         assertEquals(100, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -73,6 +80,8 @@ public class GlueList_4_AddAllTest {
         glueList.addAll(arrayList);
 
         assertEquals(5, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -95,6 +104,8 @@ public class GlueList_4_AddAllTest {
         glueList.addAll(arrayList);
 
         assertEquals(10, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -120,6 +131,8 @@ public class GlueList_4_AddAllTest {
         glueList.addAll(arrayList);
 
         assertEquals(13, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 
     @Test
@@ -142,5 +155,7 @@ public class GlueList_4_AddAllTest {
         glueList.addAll(arrayList);
 
         assertEquals(10, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList.first));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList.first, glueList.last));
     }
 }

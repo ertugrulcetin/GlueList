@@ -10,6 +10,18 @@ import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
 
+
+    @Test
+    public void testDataTest() {
+
+        GlueList.Node node = new GlueList.Node(null, null, 0);
+
+        int newStartingIndex = node.startingIndex - 1;
+        node.startingIndex = (--node.startingIndex < 0) ? 0 : node.startingIndex;
+
+        System.out.println(node.startingIndex);
+    }
+
     @Test
     public void testGet() {
 
@@ -30,7 +42,7 @@ public class CuriousThingsTest {
     }
 
     @Test
-    public void testGetArayList(){
+    public void testGetArayList() {
 
         ArrayList<String> glueList = new ArrayList<>();
 

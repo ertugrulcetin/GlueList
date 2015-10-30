@@ -373,7 +373,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return indexOf(o) != -1;
     }
 
-    //TODO when node does not contain any value it's going to be discarded.Then its going be NULL so if all nodes going to be deleted what would be then ? You need to solve null issue...
     @SuppressWarnings("unchecked")
     @Override
     public T remove(int index) {
@@ -411,8 +410,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             node.elementData = (T[]) new Object[capacity];
             node.endingIndex = capacity - 1;
         } else {
-            int newEndingIndex = node.endingIndex - 1;
-            node.endingIndex = (newEndingIndex < 0) ? 0 : newEndingIndex;
+            node.endingIndex = (--node.endingIndex < 0) ? 0 : node.endingIndex;
         }
 
         updateNodesAfterRemove(node);
@@ -698,7 +696,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         int lastReturn = -1;
 
         int expectedModCount = modCount;
-        int elementDataPointer = (node != null) ? node.elementDataPointer : 0;
+        int elementDataPointer = node.elementDataPointer;
 
         @Override
         public boolean hasNext() {
@@ -731,7 +729,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return val;
         }
 
-        //TODO getting null issue.When we delete all values first and last Node becomes NULL
         @Override
         public void remove() {
 
