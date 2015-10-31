@@ -385,7 +385,18 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         rangeCheck(index);
 
-        Node<T> node = getNode(index);
+        Node<T> node;
+
+        if (size == 2 && first != last) {
+
+            Node<T> newNode = new Node<T>(null, null, 0, 2);
+            newNode.add(first.elementData[0]);
+            newNode.add(last.elementData[0]);
+
+            node = first = last = newNode;
+        } else {
+            node = getNode(index);
+        }
 
         T[] elementData = node.elementData;
 
@@ -409,15 +420,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         node.elementDataPointer--;
 
-        if (first == last && node.elementData.length == 1) {
-
-            int capacity = (initialCapacity > 1) ? initialCapacity : DEFAULT_CAPACITY;
-
-            node.elementData = (T[]) new Object[capacity];
-            node.endingIndex = capacity - 1;
-        } else {
-            node.endingIndex = (--node.endingIndex < 0) ? 0 : node.endingIndex;
-        }
+        node.endingIndex = (--node.endingIndex < 0) ? 0 : node.endingIndex;
 
         updateNodesAfterRemove(node);
 
@@ -449,7 +452,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
-    //TODO check isDeletedAny |=
+    //TODO retainAll has bug. this method may have too...
     @Override
     public boolean removeAll(Collection<?> c) {
 
@@ -460,16 +463,15 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return false;
         }
 
-        boolean isDeletedAny = false;
+        boolean isModified = false;
 
         for (Object o : arr) {
-            isDeletedAny |= remove(o);
+            isModified |= remove(o);
         }
 
-        return isDeletedAny;
+        return isModified;
     }
 
-    //TODO test well looks like buggy. i = node.startingIndex is too big ?!?!
     @Override
     public boolean retainAll(Collection<?> c) {
 
@@ -480,29 +482,18 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return false;
         }
 
-        boolean modified = false;
+        boolean isModified = false;
 
-        for (Node<T> node = first; node != null; node = node.next) {
+        Object[] elements = toArray();
 
-            int i;
-            for (i = 0; i < node.elementDataPointer; ) {
+        for (Object element : elements) {
 
-                T element = node.elementData[i];
-
-                if (!c.contains(element)) {
-
-                    remove(element);
-
-                    i = node.startingIndex;
-
-                    modified = true;
-                } else {
-                    i++;
-                }
+            if (!c.contains(element)) {
+                isModified |= remove(element);
             }
         }
 
-        return modified;
+        return isModified;
     }
 
     @Override
@@ -607,6 +598,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         size = 0;
     }
 
+    //TODO think about it...
     public void trimToSize() {
 
         int pointer = last.elementDataPointer;

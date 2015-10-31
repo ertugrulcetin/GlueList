@@ -130,4 +130,56 @@ public class GlueList_2_AddTest {
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
+
+    @Test
+    public void test() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+        for (int i = 0; i < 6; i++) {
+            glueList.add("" + i);
+        }
+
+        glueList.remove("0");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        glueList.remove("5");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        glueList.remove("1");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        glueList.remove("2");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        glueList.remove("3");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        glueList.remove("4");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+
+        glueList.add("X");
+        glueList.printClusteredWithAllocations();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
 }
