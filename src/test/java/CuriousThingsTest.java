@@ -11,16 +11,28 @@ import static org.junit.Assert.assertEquals;
 public class CuriousThingsTest {
 
     @Test
-    public void testPrintNodesInfo(){
+    public void testRemoveRange() {
+
+        GlueList<Integer> glueList = new GlueList<>(2);
+        for (int i = 0; i < 20; i++) {
+            glueList.add(i);
+        }
+
+        glueList.removeRange(10,15);
+
+        System.out.println(glueList);
+    }
+
+    @Test
+    public void testPrintNodesInfo() {
 
         GlueList<String> glueList = new GlueList<>();
 
         for (int i = 0; i < 100; i++) {
-            glueList.add(""+i);
+            glueList.add("" + i);
         }
 
         TestUtil.printNodesInfo(glueList);
-
     }
 
     @Test

@@ -308,6 +308,12 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return node.elementData[index - node.startingIndex];
     }
 
+    //TODO remove this..maybe add feature release...
+    @Override
+    protected void removeRange(int fromIndex, int toIndex) {
+        super.removeRange(fromIndex, toIndex);
+    }
+
     //TODO Test indexOf and lastIndexOf
     @Override
     public int indexOf(Object o) {
@@ -342,7 +348,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     @Override
     public int lastIndexOf(Object o) {
 
-        int index = 0;
+        int index = size - 1;
 
         if (o == null) {
             for (Node<T> node = last; node != null; node = node.pre) {
@@ -350,7 +356,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                     if (node.elementData[i] == null) {
                         return index;
                     }
-                    index++;
+                    index--;
                 }
             }
         } else {
@@ -360,7 +366,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                     if (o.equals(node.elementData[i])) {
                         return index;
                     }
-                    index++;
+                    index--;
                 }
             }
         }
@@ -443,7 +449,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
-    //Todo check isDeletedAny |=
+    //TODO check isDeletedAny |=
     @Override
     public boolean removeAll(Collection<?> c) {
 
@@ -463,6 +469,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return isDeletedAny;
     }
 
+    //TODO test well looks like buggy. i = node.startingIndex is too big ?!?!
     @Override
     public boolean retainAll(Collection<?> c) {
 
@@ -663,7 +670,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             int len = node.elementDataPointer;
 
-            System.arraycopy(node.elementData, 0, objects, i, len);
+            if (len > 0) {
+                System.arraycopy(node.elementData, 0, objects, i, len);
+            }
 
             i += len;
         }
@@ -762,7 +771,17 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     @Override
     public ListIterator<T> listIterator(int index) {
-        return null;
+
+        checkPositionIndex(index);
+
+        return new ListItr(index);
+    }
+
+    private void checkPositionIndex(int index) {
+
+        if (!(index >= 0 && index <= size)) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
     }
 
     @Override
@@ -772,8 +791,11 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private class ListItr extends Itr implements ListIterator<T> {
 
+        //TODO check , be sure about i's value
         public ListItr(int index) {
-
+            node = (index == size) ? last : getNode(index);
+            j = index;
+//            i = index - node.startingIndex;
         }
 
         @Override
