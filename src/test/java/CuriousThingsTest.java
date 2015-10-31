@@ -22,7 +22,6 @@ public class CuriousThingsTest {
 
         System.out.println(glueList.subList(10,16));
         System.out.println(a.subList(10,16));
-        glueList.removeRange(10,15);
 
         System.out.println(glueList);
     }

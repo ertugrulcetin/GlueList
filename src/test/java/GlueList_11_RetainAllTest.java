@@ -40,8 +40,6 @@ public class GlueList_11_RetainAllTest {
 
         glueList.retainAll(tempList);
 
-        glueList.printClusteredWithAllocations();
-
         assertEquals(4, glueList.size());
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
@@ -60,19 +58,14 @@ public class GlueList_11_RetainAllTest {
             tempList.add("" + i);
         }
 
-        glueList.printClusteredWithAllocations();
-
         glueList.retainAll(tempList);
+        assertEquals(20, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
 
-        glueList.printClusteredWithAllocations();
-
-        TestUtil.printNodesInfo(glueList);
         glueList.add("X");
-//        glueList.printClusteredWithAllocations();
-        TestUtil.printNodesInfo(glueList);
 
-
-//        assertEquals(20, glueList.size());
+        assertEquals(21, glueList.size());
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
@@ -90,36 +83,17 @@ public class GlueList_11_RetainAllTest {
             tempList.add("" + i);
         }
 
-        glueList.printClusteredWithAllocations();
-        TestUtil.printNodesInfo(glueList);
-        System.out.println("Size: " + glueList.size());
-        System.out.println();
-        System.out.println();
-
         glueList.retainAll(tempList);
-        glueList.printClusteredWithAllocations();
-        TestUtil.printNodesInfo(glueList);
-        System.out.println("Size: " + glueList.size());
-        System.out.println();
-        System.out.println();
 
+        assertEquals(12, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
 
-
-        System.out.println();
-        System.out.println();
-
-        glueList.add("X");
-
-        for (int i = 0; i < 200; i++) {
-            glueList.add("a");
+        for (int i = 0; i < 8; i++) {
+            glueList.add("X");
         }
-            glueList.add("a");
 
-        glueList.printClusteredWithAllocations();
-        TestUtil.printNodesInfo(glueList);
-        glueList.printClusteredWithAllocations();
-
-//        assertEquals(4, glueList.size());
+        assertEquals(20, glueList.size());
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }

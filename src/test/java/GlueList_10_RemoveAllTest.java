@@ -47,6 +47,8 @@ public class GlueList_10_RemoveAllTest {
 
         assertEquals(false, result);
         assertEquals(3, glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @Test

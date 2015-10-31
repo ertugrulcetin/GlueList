@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 
@@ -29,7 +30,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private int size;
 
-    private int initialCapacity;
+    int initialCapacity;
 
     private static final int DEFAULT_CAPACITY = 10;
 
@@ -308,13 +309,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return node.elementData[index - node.startingIndex];
     }
 
-    //TODO remove this..maybe add feature release...
-    @Override
-    protected void removeRange(int fromIndex, int toIndex) {
-        super.removeRange(fromIndex, toIndex);
-    }
-
-    //TODO Test indexOf and lastIndexOf
     @Override
     public int indexOf(Object o) {
 
@@ -451,7 +445,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
-    //TODO retainAll has bug. this method may have too...
+    //TODO test again with retainAll test methods
     @Override
     public boolean removeAll(Collection<?> c) {
 
@@ -586,9 +580,11 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         first = last = null;
 
-        int capacity = (initialCapacity > 1) ? initialCapacity : DEFAULT_CAPACITY;
+        int capacity = min(MAX_ARRAY_SIZE, max(size, max(initialCapacity, DEFAULT_CAPACITY)));
 
         Node<T> initNode = new Node<>(null, null, 0, capacity);
+
+        initialCapacity = capacity;
 
         first = initNode;
         last = initNode;
