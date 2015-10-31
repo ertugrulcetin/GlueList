@@ -13,11 +13,15 @@ public class CuriousThingsTest {
     @Test
     public void testRemoveRange() {
 
+        ArrayList<Integer> a = new ArrayList<>();
         GlueList<Integer> glueList = new GlueList<>(2);
         for (int i = 0; i < 20; i++) {
             glueList.add(i);
+            a.add(i);
         }
 
+        System.out.println(glueList.subList(10,16));
+        System.out.println(a.subList(10,16));
         glueList.removeRange(10,15);
 
         System.out.println(glueList);

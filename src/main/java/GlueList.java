@@ -389,7 +389,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         if (size == 2 && first != last) {
 
-            Node<T> newNode = new Node<T>(null, null, 0, 2);
+            Node<T> newNode = new Node<>(null, null, 0, 2);
             newNode.add(first.elementData[0]);
             newNode.add(last.elementData[0]);
 
@@ -412,15 +412,14 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             System.arraycopy(node.elementData, nodeArrIndex + 1, node.elementData, nodeArrIndex, numMoved);
         }
 
-        if (first == last) {
+        if (first == last || node == last) {
             node.elementData[elementSize - 1] = null;
         } else {
             node.elementData = Arrays.copyOf(node.elementData, elementSize - 1);
+            node.endingIndex = (--node.endingIndex < 0) ? 0 : node.endingIndex;
         }
 
         node.elementDataPointer--;
-
-        node.endingIndex = (--node.endingIndex < 0) ? 0 : node.endingIndex;
 
         updateNodesAfterRemove(node);
 
