@@ -1,11 +1,14 @@
 public class TestUtil {
 
-    public static <T> void printNodesStartingAndEndingIndexes(GlueList.Node<T> from) {
+    private TestUtil() {
+    }
+
+    public static <T> void printNodesStartingAndEndingIndexes(GlueList<T> glueList) {
 
         int totalNodesCreated = 0;
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (GlueList.Node<T> node = from; node != null; node = node.next) {
+        for (GlueList.Node<T> node = glueList.first; node != null; node = node.next) {
             stringBuilder.append("[").append(node.startingIndex).append(",").append(node.endingIndex).append("] ");
             totalNodesCreated++;
         }
@@ -19,6 +22,20 @@ public class TestUtil {
             System.out.println("Total Nodes: " + totalNodesCreated);
         }
     }
+
+    public static <T> void printNodesInfo(GlueList<T> glueList) {
+
+        int totalNodesCreated = 0;
+
+        for (GlueList.Node<T> node = glueList.first; node != null; node = node.next) {
+            System.out.println(node);
+            totalNodesCreated++;
+        }
+
+        System.out.println("Total Nodes: " + totalNodesCreated);
+        System.out.println();
+    }
+
 
     public static <T> boolean isNodesStartingAndEndingIndexesAreTrue(GlueList<T> glueList) {
 
@@ -48,5 +65,34 @@ public class TestUtil {
         }
 
         return true;
+    }
+
+    public static <T> boolean isItCorrectAfterAllDataDeleted(GlueList<T> glueList) {
+
+        if (glueList.size() != 0) {
+            return false;
+        }
+
+        if (glueList.first != glueList.last) {
+            return false;
+        }
+
+        if (glueList.last.elementDataPointer != 0) {
+            return false;
+        }
+
+        if (glueList.last.elementData.length < 2) {
+            return false;
+        }
+
+        if (glueList.last.startingIndex > glueList.last.endingIndex) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static <T> boolean isFirstAndLastNodesAreEqual(GlueList<T> glueList) {
+        return glueList.first == glueList.last;
     }
 }

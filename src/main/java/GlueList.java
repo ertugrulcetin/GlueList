@@ -443,6 +443,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
+    //Todo check isDeletedAny |=
     @Override
     public boolean removeAll(Collection<?> c) {
 
@@ -453,11 +454,13 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return false;
         }
 
+        boolean isDeletedAny = false;
+
         for (Object o : arr) {
-            remove(o);
+            isDeletedAny |= remove(o);
         }
 
-        return true;
+        return isDeletedAny;
     }
 
     @Override
@@ -512,11 +515,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         for (Node<T> node = fromNode.next; node != null; node = node.next) {
 
-            int newStartingIndex = node.startingIndex - 1;
-            int newEndingIndex = node.endingIndex - 1;
-
-            node.startingIndex = (newStartingIndex < 0) ? 0 : newStartingIndex;
-            node.endingIndex = (newEndingIndex < 0) ? 0 : newEndingIndex;
+            node.startingIndex = (--node.startingIndex < 0) ? 0 : node.startingIndex;
+            node.endingIndex = (--node.endingIndex < 0) ? 0 : node.endingIndex;
         }
     }
 
@@ -559,7 +559,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private Node<T> getNodeForAdd(int index) {
 
-        if (index == size) {
+        if (index == size && !(last.startingIndex <= index && index <= last.endingIndex)) {
             return null;
         }
 
@@ -1034,6 +1034,11 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         public int getElementDataPointer() {
             return elementDataPointer;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[sIndex: %d - eIndex: %d | elementDataPointer: %d | elementDataLength: %d]", startingIndex, endingIndex, elementDataPointer, elementData.length);
         }
     }
 }

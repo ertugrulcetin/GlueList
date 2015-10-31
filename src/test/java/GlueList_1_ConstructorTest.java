@@ -8,13 +8,15 @@ import static org.junit.Assert.assertNotEquals;
 
 public class GlueList_1_ConstructorTest {
 
-
     @Test
     public void test() {
 
         GlueList<String> glueList = new GlueList<>();
 
         assertEquals(true, glueList.first == glueList.last);
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @Test
@@ -24,6 +26,9 @@ public class GlueList_1_ConstructorTest {
 
         assertEquals(0, glueList.size());
         assertEquals(10, glueList.last.getElementDataLength());
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @Test
@@ -33,6 +38,9 @@ public class GlueList_1_ConstructorTest {
 
         assertEquals(0, glueList.size());
         assertEquals(20, glueList.last.getElementDataLength());
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -61,6 +69,9 @@ public class GlueList_1_ConstructorTest {
         GlueList<String> glueList = new GlueList<>(dataList);
 
         assertEquals(dataList.size(), glueList.size());
+        assertEquals(true, glueList.equals(dataList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @Test
@@ -77,6 +88,10 @@ public class GlueList_1_ConstructorTest {
         GlueList<String> glueList = new GlueList<>(dataList);
         glueList.add("6");
 
+        assertEquals(6, glueList.size());
+
         assertNotEquals(dataList.size(), glueList.size());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 }

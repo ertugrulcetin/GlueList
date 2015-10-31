@@ -10,6 +10,18 @@ import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
 
+    @Test
+    public void testPrintNodesInfo(){
+
+        GlueList<String> glueList = new GlueList<>();
+
+        for (int i = 0; i < 100; i++) {
+            glueList.add(""+i);
+        }
+
+        TestUtil.printNodesInfo(glueList);
+
+    }
 
     @Test
     public void testDataTest() {
@@ -20,6 +32,26 @@ public class CuriousThingsTest {
         node.startingIndex = (--node.startingIndex < 0) ? 0 : node.startingIndex;
 
         System.out.println(node.startingIndex);
+    }
+
+    @Test
+    public void testRemoveAll() {
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        GlueList<String> glueList = new GlueList<>(2);
+
+        for (int i = 0; i < 20; i++) {
+            glueList.add("" + i);
+            arrayList.add("" + i);
+        }
+
+        glueList.printClustered();
+        glueList.printClusteredWithAllocations();
+
+        glueList.removeAll(arrayList);
+
+        glueList.printClustered();
+        glueList.printClusteredWithAllocations();
     }
 
     @Test

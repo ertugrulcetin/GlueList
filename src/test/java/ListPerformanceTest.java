@@ -5,11 +5,12 @@ import java.util.LinkedList;
 
 public class ListPerformanceTest {
 
-    //    int dataCount = 1_000;
+//    int dataCount = 1_000;
 //    int dataCount = 10_000;
 //    int dataCount = 100_000;
+    int dataCount = 500_000;
 //    int dataCount = 1_000_000;
-    int dataCount = 5_000_000;
+//    int dataCount = 5_000_000;
 //    int dataCount = 10_000_000;
 
     @Test
@@ -22,15 +23,25 @@ public class ListPerformanceTest {
 
         GlueList<Integer> myList = new GlueList<>();
 
+        for (int i = 0; i < dataCount; i++) {
+            myList.add(i);
+        }
+
         long s, e;
 
         s = System.currentTimeMillis();
         /*for (String integer : myList) {
 //                System.out.println(integer);
         }*/
-        for (int i = 0; i < dataCount; i++) {
-            myList.add(i);
+        int i = 0, j = myList.size();
+        for (; i < j; i++) {
+
+            myList.remove(i);
+            i = 0;
+            j = myList.size();
         }
+        myList.remove(0);
+//        myList.removeAll(arrayList);
         e = System.currentTimeMillis();
         System.out.println("My List: " + (e - s));
     }
@@ -39,7 +50,9 @@ public class ListPerformanceTest {
     public void testArrayList() {
 
         ArrayList<Integer> arrList = new ArrayList<>();
-
+        for (int i = 0; i < dataCount; i++) {
+            arrList.add(i);
+        }
 
         long s, e;
 
@@ -47,9 +60,15 @@ public class ListPerformanceTest {
        /* for (String integer : arrList) {
 //                System.out.println(integer);
         }*/
-        for (int i = 0; i < dataCount; i++) {
-            arrList.add(i);
+        int i = 0, j = arrList.size();
+        for (; i < j; i++) {
+
+            arrList.remove(i);
+            i = 0;
+            j = arrList.size();
         }
+        arrList.remove(0);
+//        arrList.removeAll(tempList);
         e = System.currentTimeMillis();
         System.out.println("Array List: " + (e - s));
     }

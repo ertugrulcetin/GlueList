@@ -34,9 +34,13 @@ public class GlueList_4_AddAllTest {
 
         GlueList<String> glueList = new GlueList<>();
 
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+
         ArrayList<String> arrayList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             arrayList.add("" + i);
+            assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+            assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
         }
 
         glueList.addAll(arrayList);
@@ -52,9 +56,13 @@ public class GlueList_4_AddAllTest {
 
         GlueList<String> glueList = new GlueList<>(100);
 
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+
         ArrayList<String> arrayList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             arrayList.add("" + i);
+            assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+            assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
         }
 
         glueList.addAll(arrayList);
@@ -69,8 +77,14 @@ public class GlueList_4_AddAllTest {
     public void test_add_all_no_remained_storage() {
 
         GlueList<String> glueList = new GlueList<>(2);
+
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+
         glueList.add("1");
         glueList.add("2");
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
 
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("4");
@@ -88,9 +102,14 @@ public class GlueList_4_AddAllTest {
     public void test_add_all_collection_len_less_than_remained_storage() {
 
         GlueList<String> glueList = new GlueList<>(10);
+
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+
         glueList.add("1");
         glueList.add("2");
         glueList.add("3");
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
 
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("4");
@@ -112,12 +131,18 @@ public class GlueList_4_AddAllTest {
     public void test_add_all_collection_len_greater_than_remained_storage() {
 
         GlueList<String> glueList = new GlueList<>(10);
+
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+
         glueList.add("1");
         glueList.add("2");
         glueList.add("3");
         glueList.add("4");
         glueList.add("5");
         glueList.add("6");
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
 
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("7");
@@ -139,7 +164,13 @@ public class GlueList_4_AddAllTest {
     public void test_add_all_collection_len_greater_than_remained_storage_2() {
 
         GlueList<String> glueList = new GlueList<>(2);
+
+        assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
+
         glueList.add("1");
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
 
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("2");
