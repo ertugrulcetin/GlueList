@@ -10,19 +10,66 @@ import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCloneLinkedList() {
+
+        LinkedList<String> a = new LinkedList<>();
+        a.add("1");
+        a.add("2");
+        a.add("3");
+
+        LinkedList<String> clonedList = (LinkedList<String>) a.clone();
+
+        System.out.println(a);
+        System.out.println(clonedList);
+
+        a.add("4");
+        a.add("4");
+        a.add("4");
+        a.add("4");
+        a.add("4");
+
+        System.out.println(a);
+        System.out.println(clonedList);
+
+//        assertEquals(false, a == clonedList);
+//        assertEquals(true, a.getClass() == clonedList.getClass());
+//        assertEquals(true, a.equals(clonedList));
+    }
 
     @Test
-    public void test_arr_list(){
+    public void testCloneArrList() {
 
-        ArrayList<String> a  = new ArrayList<>(1);
+        ArrayList<Integer> a = new ArrayList<>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+
+        ArrayList<Integer> clonedList = (ArrayList<Integer>) a.clone();
+
+        System.out.println(clonedList.get(0));
+        System.out.println(clonedList.get(1));
+        System.out.println(clonedList.get(2));
+        if (a == clonedList) {
+            System.out.println("Same address!");
+        } else {
+            System.out.println("Nopde");
+        }
+    }
+
+    @Test
+    public void test_arr_list() {
+
+        ArrayList<String> a = new ArrayList<>(1);
         a.add("1");
         a.add("2");
         a.add("3");
         a.add("4");
 
         System.out.println(a);
-
     }
+
     @Test
     public void testRemoveRange() {
 
@@ -33,8 +80,8 @@ public class CuriousThingsTest {
             a.add(i);
         }
 
-        System.out.println(glueList.subList(10,16));
-        System.out.println(a.subList(10,16));
+        System.out.println(glueList.subList(10, 16));
+        System.out.println(a.subList(10, 16));
 
         System.out.println(glueList);
     }

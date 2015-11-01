@@ -876,12 +876,23 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     @SuppressWarnings("unchecked")
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
 
         try {
             GlueList<T> clone = (GlueList<T>) super.clone();
 
-            clone.clear();
+            clone.first = clone.last = null;
+
+            int capacity = min(MAX_ARRAY_SIZE, max(clone.size, max(clone.initialCapacity, DEFAULT_CAPACITY)));
+
+            Node<T> initNode = new Node<>(null, null, 0, capacity);
+
+            clone.initialCapacity = capacity;
+
+            clone.first = clone.last = initNode;
+
+            clone.modCount = 0;
+            clone.size = 0;
 
             for (Node<T> node = first; node != null; node = node.next) {
 
@@ -889,8 +900,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                     clone.add(node.elementData[i]);
                 }
             }
-
-            clone.modCount = 0;
 
             return clone;
         } catch (CloneNotSupportedException e) {
