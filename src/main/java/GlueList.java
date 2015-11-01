@@ -593,14 +593,20 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         size = 0;
     }
 
-    //TODO think about it...
     public void trimToSize() {
 
         int pointer = last.elementDataPointer;
         int arrLen = last.elementData.length;
 
-        if (pointer < arrLen && pointer != 0) {
-            last.elementData = Arrays.copyOf(last.elementData, pointer);
+        if (pointer < arrLen && arrLen > 2) {
+
+            if (pointer < 2) {
+                last.elementData = Arrays.copyOf(last.elementData, 2);
+                last.endingIndex -= arrLen - 2;
+            } else {
+                last.elementData = Arrays.copyOf(last.elementData, pointer);
+                last.endingIndex -= arrLen - pointer;
+            }
         }
     }
 

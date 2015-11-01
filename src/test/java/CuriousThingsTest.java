@@ -10,6 +10,19 @@ import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
 
+
+    @Test
+    public void test_arr_list(){
+
+        ArrayList<String> a  = new ArrayList<>(1);
+        a.add("1");
+        a.add("2");
+        a.add("3");
+        a.add("4");
+
+        System.out.println(a);
+
+    }
     @Test
     public void testRemoveRange() {
 
