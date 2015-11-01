@@ -926,6 +926,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
+
     @SuppressWarnings("unchecked")
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
 

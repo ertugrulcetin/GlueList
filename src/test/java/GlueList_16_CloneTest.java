@@ -18,6 +18,8 @@ public class GlueList_16_CloneTest {
         assertEquals(false, clonedList == glueList);
         assertEquals(true, glueList.equals(clonedList));
         assertEquals(true, clonedList.getClass() == glueList.getClass());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @SuppressWarnings("unchecked")
@@ -30,13 +32,13 @@ public class GlueList_16_CloneTest {
             glueList.add("" + i);
         }
 
-        System.gc();
         GlueList<String> clonedList = (GlueList<String>) glueList.clone();
-        System.gc();
 
         assertEquals(false, clonedList == glueList);
         assertEquals(true, glueList.equals(clonedList));
         assertEquals(true, clonedList.getClass() == glueList.getClass());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
 
@@ -57,5 +59,7 @@ public class GlueList_16_CloneTest {
         assertEquals(false, clonedList == glueList);
         assertEquals(true, glueList.equals(clonedList));
         assertEquals(true, clonedList.getClass() == glueList.getClass());
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 }
