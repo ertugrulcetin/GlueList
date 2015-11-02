@@ -36,7 +36,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
-    //TODO add feature -> user can decide list going to allow nulls or not.
     public GlueList() {
 
         Node<T> initNode = new Node<>(null, null, 0, DEFAULT_CAPACITY);
@@ -445,7 +444,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return oldValue;
     }
 
-    //TODO test again with retainAll test methods
     @Override
     public boolean removeAll(Collection<?> c) {
 
@@ -610,6 +608,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
+    //TODO testit !!
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
 
@@ -749,13 +748,15 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
                 i = (--i < 0) ? 0 : i;
 
+                elementDataPointer = (node != null) ? node.elementDataPointer : 0;
+
                 expectedModCount = modCount;
             } catch (IndexOutOfBoundsException e) {
                 throw new ConcurrentModificationException();
             }
         }
 
-        final void checkForComodification() {
+        void checkForComodification() {
             if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
@@ -965,6 +966,29 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         System.out.println(str);
     }
 
+    String printValuesClustered() {
+
+        StringBuilder str = new StringBuilder();
+
+        for (Node<T> node = first; node != null; node = node.next) {
+
+            StringBuilder s = new StringBuilder("[");
+
+            if (node.elementDataPointer > 0) {
+                s.append(node.elementData[0]);
+            }
+
+            for (int i = 1; i < node.elementDataPointer; i++) {
+                s.append(",").append(node.elementData[i]);
+            }
+            s.append("]");
+
+            str.append(s);
+        }
+
+        return str.toString();
+    }
+
     void printClusteredWithAllocations() {
 
         StringBuilder str = new StringBuilder();
@@ -986,6 +1010,29 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
 
         System.out.println(str);
+    }
+
+    String printValuesClusteredWithAllocations() {
+
+        StringBuilder str = new StringBuilder();
+
+        for (Node<T> node = first; node != null; node = node.next) {
+
+            StringBuilder s = new StringBuilder("[");
+            //TODO not sure about >= ?? maybe it has to be >
+            if (node.elementDataPointer >= 0) {
+                s.append(node.elementData[0]);
+            }
+
+            for (int i = 1; i < node.elementData.length; i++) {
+                s.append(",").append(node.elementData[i]);
+            }
+            s.append("]");
+
+            str.append(s);
+        }
+
+        return str.toString();
     }
 
     static class Node<T> {

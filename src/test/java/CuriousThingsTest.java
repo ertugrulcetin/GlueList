@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -9,6 +10,24 @@ import java.util.ListIterator;
 import static org.junit.Assert.assertEquals;
 
 public class CuriousThingsTest {
+
+    @Test
+    public void testArrRemoveItarator(){
+
+        ArrayList<Integer> a = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            a.add(i);
+        }
+
+
+        Iterator<Integer> iterator = a.iterator();
+        iterator.next();//0
+        iterator.next();//1
+        iterator.next();//2 - 0
+        iterator.remove();//2 - 0
+
+        iterator.remove();
+    }
 
     @SuppressWarnings("unchecked")
     @Test
