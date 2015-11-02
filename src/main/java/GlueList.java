@@ -717,6 +717,12 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 throw new ConcurrentModificationException();
             }
 
+            if (j == 0) {// it's for listIterator.when node becomes null.
+                node = first;
+                elementDataPointer = node.elementDataPointer;
+                i = 0;
+            }
+
             T val = node.elementData[i++];
 
             if (i >= elementDataPointer) {
@@ -787,9 +793,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         //TODO check , be sure about i's value
         public ListItr(int index) {
-            node = (index == size) ? last : getNode(index);
+           /* node = (index == size) ? last : getNode(index);
             j = index;
-//            i = index - node.startingIndex;
+//            i = index - node.startingIndex;*/
         }
 
         @Override
@@ -806,8 +812,27 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 throw new NoSuchElementException();
             }
 
-            if (j >= last.endingIndex + 1) {
+            if (j - 1 >= last.endingIndex + 1) {
                 throw new ConcurrentModificationException();
+            }
+
+            if (j == size) {
+
+                node = last;
+
+                elementDataPointer = node.elementDataPointer;
+
+                i = elementDataPointer;
+            }
+
+            int index = j - node.startingIndex;
+            if (index == 0) {
+
+                node = node.pre;
+
+                elementDataPointer = node.elementDataPointer;
+
+                i = elementDataPointer;
             }
 
             T val = node.elementData[--i];

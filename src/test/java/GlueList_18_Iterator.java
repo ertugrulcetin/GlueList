@@ -189,14 +189,14 @@ public class GlueList_18_Iterator {
     public void test_iterator_remove_big_data() {
 
         GlueList<String> glueList = new GlueList<>(2);
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 100_000; i++) {
             glueList.add("" + i);
         }
 
         Iterator<String> iterator = glueList.iterator();
 
         int size = glueList.size();
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 100_000; i++) {
 
             assertEquals(true, iterator.hasNext());
             assertEquals("" + i, iterator.next());

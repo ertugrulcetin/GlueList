@@ -12,7 +12,36 @@ import static org.junit.Assert.assertEquals;
 public class CuriousThingsTest {
 
     @Test
-    public void testArrRemoveItarator(){
+    public void testArrListPreviosListIterator() {
+
+        ArrayList<Integer> a = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            a.add(i);
+        }
+
+        ListIterator<Integer> listIterator = a.listIterator();
+
+        while (listIterator.hasNext()) {
+            listIterator.next();
+        }
+
+        while(listIterator.hasPrevious()){
+            System.out.println(listIterator.previous());
+        }
+
+        a.remove(0);
+
+        while (listIterator.hasNext()) {
+            listIterator.next();
+        }
+
+        while(listIterator.hasPrevious()){
+            System.out.println(listIterator.previous());
+        }
+    }
+
+    @Test
+    public void testArrRemoveItarator() {
 
         ArrayList<Integer> a = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
