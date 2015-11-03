@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Run tests one by one...
- */
-
 public class GlueList_0_Benchmark {
 
     int dataCount500k = 500_000;
