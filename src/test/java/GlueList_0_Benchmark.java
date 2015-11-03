@@ -10,8 +10,8 @@ public class GlueList_0_Benchmark {
 //    int dataCount = 100_000;
 //    int dataCount = 500_000;
 //    int dataCount = 1_000_000;
-    int dataCount = 5_000_000;
-//    int dataCount = 10_000_000;
+//    int dataCount = 5_000_000;
+    int dataCount = 10_000_000;
 
   /*  @Test
     public void testPerformanceTest() {
@@ -43,21 +43,20 @@ public class GlueList_0_Benchmark {
         }
         e = System.currentTimeMillis();
         System.out.println("My List: " + (e - s));
+
+        TestUtil.printNodesInfo(myList);
     }
 
     @Test
     public void testArrayList() {
 
         ArrayList<Integer> arrList = new ArrayList<>();
-        for (int i = 0; i < dataCount; i++) {
-            arrList.add(i);
-        }
 
         long s, e;
 
         s = System.currentTimeMillis();
-        for (Integer integer : arrList) {
-
+        for (int i = 0; i < dataCount; i++) {
+            arrList.add(i);
         }
         e = System.currentTimeMillis();
         System.out.println("ArrList: " + (e - s));
