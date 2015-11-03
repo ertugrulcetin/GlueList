@@ -15,6 +15,8 @@ public class GlueList_20_SubListTest {
         GlueList<String> tempList = new GlueList<>(glueList.subList(0, 10));
 
         assertEquals(true, glueList.equals(tempList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(tempList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(tempList));
     }
 
     @Test
@@ -28,6 +30,8 @@ public class GlueList_20_SubListTest {
         GlueList<String> tempList = new GlueList<>(glueList.subList(0, 10_000));
 
         assertEquals(true, glueList.equals(tempList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(tempList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(tempList));
     }
 
     @Test
@@ -47,5 +51,7 @@ public class GlueList_20_SubListTest {
 
 
         assertEquals(true, temp2.equals(tempList));
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(tempList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(tempList));
     }
 }
