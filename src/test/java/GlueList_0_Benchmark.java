@@ -10,37 +10,36 @@ public class GlueList_0_Benchmark {
 //    int dataCount = 100_000;
 //    int dataCount = 500_000;
 //    int dataCount = 1_000_000;
-//    int dataCount = 5_000_000;
-    int dataCount = 10_000_000;
+    int dataCount = 5_000_000;
+//    int dataCount = 10_000_000;
 
-    /*  @Test
-      public void testPerformanceTest() {
+  /*  @Test
+    public void testPerformanceTest() {
 
 
-          TreeList<Integer> treeList = new TreeList<>();
+        GapList<Integer> gapList = new GapList<>();
 
-          long s, e;
+        long s, e;
 
-          s = System.currentTimeMillis();
-          for (int i = 0; i < dataCount; i++) {
-              treeList.add(i);
-          }
-          e = System.currentTimeMillis();
-          System.out.println("TreeList: " + (e - s));
-      }
-  */
+        s = System.currentTimeMillis();
+        for (int i = 0; i < dataCount; i++) {
+            gapList.add(i);
+        }
+        e = System.currentTimeMillis();
+
+        System.out.println("Gap List: " + (e - s));
+    }
+*/
+
     @Test
     public void testGlueList() {
 
         GlueList<Integer> myList = new GlueList<>();
-        for (int i = 0; i < dataCount; i++) {
-            myList.add(i);
-        }
 
         long s, e;
         s = System.currentTimeMillis();
-        for (Integer integer : myList) {
-
+        for (int i = 0; i < dataCount; i++) {
+            myList.add(i);
         }
         e = System.currentTimeMillis();
         System.out.println("My List: " + (e - s));

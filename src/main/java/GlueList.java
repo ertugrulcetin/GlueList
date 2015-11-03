@@ -808,11 +808,13 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             checkForComodification();
 
-            if (j <= 0) {
+            int temp = j - 1;
+
+            if (temp < 0) {
                 throw new NoSuchElementException();
             }
 
-            if (j - 1 >= last.endingIndex + 1) {
+            if (temp >= last.endingIndex + 1) {
                 throw new ConcurrentModificationException();
             }
 
@@ -842,7 +844,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 i = (node != null) ? node.elementDataPointer : 0;
             }
 
-            lastReturn = j--;
+            j = temp;
+
+            lastReturn = j;
 
             return val;
         }
@@ -873,7 +877,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             }
         }
 
-        //TODO check i . is it work correctly ? Check add(int,element) ?
         @Override
         public void add(T t) {
 
@@ -887,6 +890,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
                 j = temp + 1;
 
                 lastReturn = -1;
+
+                i++;
+                elementDataPointer = (node != null) ? node.elementDataPointer : 0;
 
                 expectedModCount = modCount;
             } catch (IndexOutOfBoundsException e) {

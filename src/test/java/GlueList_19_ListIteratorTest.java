@@ -239,6 +239,9 @@ public class GlueList_19_ListIteratorTest {
             assertEquals(i, listIterator.nextIndex());
             assertEquals(i - 1, listIterator.previousIndex());
         }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 
     @Test
@@ -257,8 +260,97 @@ public class GlueList_19_ListIteratorTest {
             listIterator.set("X");
         }
 
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
         while (listIterator.hasPrevious()) {
             assertEquals("X", listIterator.previous());
         }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
+
+    @Test
+    public void test_list_iterator_add_simple() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+
+        for (int i = 0; i < 5; i++) {
+            glueList.add("" + i);
+        }
+
+        ListIterator<String> listIterator = glueList.listIterator();
+
+        for (int i = 0; i < 5; i++) {
+            assertEquals("" + i, listIterator.next());
+        }
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        listIterator.add("5");
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        assertEquals("5", listIterator.previous());
+        assertEquals("4", listIterator.previous());
+        assertEquals("3", listIterator.previous());
+        assertEquals("2", listIterator.previous());
+        assertEquals("1", listIterator.previous());
+        assertEquals("0", listIterator.previous());
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        for (int i = 0; i < 6; i++) {
+            assertEquals("" + i, listIterator.next());
+        }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        listIterator.remove();
+        listIterator.previous();
+        listIterator.remove();
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        for (int i = 3; i >= 0; i--) {
+            assertEquals("" + i, listIterator.previous());
+        }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
+
+    @Test
+    public void test_list_iterator_add_2() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+
+        for (int i = 0; i < 10; i++) {
+            glueList.add("" + i);
+        }
+
+        ListIterator<String> listIterator = glueList.listIterator();
+
+
+        for (int i = 0; i < 7; i++) {
+            listIterator.next();
+        }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+
+        listIterator.add("X");
+
+        assertEquals("7", listIterator.next());
+        assertEquals("8", listIterator.next());
+        assertEquals("9", listIterator.next());
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
 }
