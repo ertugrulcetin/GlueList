@@ -793,9 +793,10 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         //TODO check , be sure about i's value
         public ListItr(int index) {
-           /* node = (index == size) ? last : getNode(index);
+            node = (index == size) ? last : getNode(index);
             j = index;
-//            i = index - node.startingIndex;*/
+            i = index - node.startingIndex;
+            elementDataPointer = node.elementDataPointer;
         }
 
         @Override

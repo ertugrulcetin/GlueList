@@ -353,4 +353,134 @@ public class GlueList_19_ListIteratorTest {
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
     }
+
+    @Test
+    public void test_list_iterator_add_3() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+
+        for (int i = 0; i < 10; i++) {
+            glueList.add("" + i);
+        }
+
+
+        ListIterator<String> listIterator = glueList.listIterator();
+
+        for (int i = 0; i < 7; i++) {
+            listIterator.next();
+        }
+
+        listIterator.add("X");
+        listIterator.add("X");
+
+        assertEquals("7", listIterator.next());
+        assertEquals("8", listIterator.next());
+        assertEquals("9", listIterator.next());
+
+        assertEquals("9", listIterator.previous());
+        assertEquals("8", listIterator.previous());
+        assertEquals("7", listIterator.previous());
+        assertEquals("X", listIterator.previous());
+        assertEquals("X", listIterator.previous());
+        assertEquals("6", listIterator.previous());
+        assertEquals("5", listIterator.previous());
+        assertEquals("4", listIterator.previous());
+        assertEquals("3", listIterator.previous());
+        assertEquals("2", listIterator.previous());
+        assertEquals("1", listIterator.previous());
+        assertEquals("0", listIterator.previous());
+
+        assertEquals(false, listIterator.hasPrevious());
+        assertEquals(true, listIterator.hasNext());
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
+
+    @Test
+    public void test_list_iterator_constructor_1() {
+
+        GlueList<String> glueList = new GlueList<>();
+        for (int i = 0; i < 10; i++) {
+            glueList.add("" + i);
+        }
+
+        ListIterator<String> listIterator = glueList.listIterator(5);
+
+        for (int i = 5; i <= 9; i++) {
+            assertEquals("" + i, listIterator.next());
+        }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
+
+    @Test
+    public void test_list_iterator_constructor_2() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+        for (int i = 0; i < 10; i++) {
+            glueList.add("" + i);
+        }
+
+        ListIterator<String> listIterator = glueList.listIterator(7);
+
+        assertEquals("6", listIterator.previous());
+        assertEquals("5", listIterator.previous());
+        assertEquals("4", listIterator.previous());
+        assertEquals("3", listIterator.previous());
+        assertEquals("2", listIterator.previous());
+        assertEquals("1", listIterator.previous());
+        assertEquals("0", listIterator.previous());
+
+        for (int i = 0; i < 10; i++) {
+            assertEquals("" + i, listIterator.next());
+        }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
+
+    @Test
+    public void test_list_iterator_constructor_3() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+        for (int i = 0; i < 10; i++) {
+            glueList.add("" + i);
+        }
+
+        ListIterator<String> listIterator = glueList.listIterator(10);
+
+        assertEquals("9", listIterator.previous());
+        assertEquals("8", listIterator.previous());
+        assertEquals("7", listIterator.previous());
+        assertEquals("6", listIterator.previous());
+        assertEquals("5", listIterator.previous());
+        assertEquals("4", listIterator.previous());
+        assertEquals("3", listIterator.previous());
+        assertEquals("2", listIterator.previous());
+        assertEquals("1", listIterator.previous());
+        assertEquals("0", listIterator.previous());
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
+
+    @Test
+    public void test_list_iterator_constructor_4() {
+
+        GlueList<String> glueList = new GlueList<>(2);
+        for (int i = 0; i < 100; i++) {
+            glueList.add("" + i);
+        }
+
+        ListIterator<String> listIterator = glueList.listIterator(32);
+
+        for (int i = 32; i < 100; i++) {
+            assertEquals("" + i, listIterator.next());
+        }
+
+        assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
+        assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
+    }
 }
