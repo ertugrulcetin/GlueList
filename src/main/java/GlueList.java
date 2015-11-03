@@ -212,7 +212,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
             return true;
         }
 
-        //TODO elementSize name refactor -> last.elementDataPointer ?
         int elementDataLen = last.elementData.length;
         int elementSize = last.elementDataPointer;
 
@@ -608,33 +607,9 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
-    //TODO testit !!
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-
-        subListRangeCheck(fromIndex, toIndex, size);
-
-        int initialSize = toIndex - fromIndex;
-        if (initialSize == 0) {
-            return new GlueList<>();
-        }
-
-        GlueList<T> list = new GlueList<>(initialSize);
-
-        int i = 0;
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            for (int j = 0; j < node.elementDataPointer; j++) {
-
-                if (fromIndex <= i && i < toIndex) {
-                    list.add(node.elementData[j]);
-                }
-
-                i++;
-            }
-        }
-
-        return list;
+        return super.subList(fromIndex, toIndex);
     }
 
     private void subListRangeCheck(int fromIndex, int toIndex, int size) {
@@ -791,7 +766,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
     private class ListItr extends Itr implements ListIterator<T> {
 
-        //TODO check , be sure about i's value
         public ListItr(int index) {
             node = (index == size) ? last : getNode(index);
             j = index;
