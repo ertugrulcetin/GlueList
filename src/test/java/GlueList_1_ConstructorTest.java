@@ -25,7 +25,6 @@ public class GlueList_1_ConstructorTest {
         GlueList<String> glueList = new GlueList<>();
 
         assertEquals(0, glueList.size());
-        assertEquals(10, glueList.last.getElementDataLength());
         assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
@@ -37,7 +36,6 @@ public class GlueList_1_ConstructorTest {
         GlueList<String> glueList = new GlueList<>(20);
 
         assertEquals(0, glueList.size());
-        assertEquals(20, glueList.last.getElementDataLength());
         assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));

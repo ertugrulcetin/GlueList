@@ -28,7 +28,7 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
     transient Node<T> first;
     transient Node<T> last;
 
-    private int size;
+    int size;
 
     int initialCapacity;
 
@@ -612,21 +612,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         return super.subList(fromIndex, toIndex);
     }
 
-    private void subListRangeCheck(int fromIndex, int toIndex, int size) {
-
-        if (fromIndex < 0) {
-            throw new ArrayIndexOutOfBoundsException(fromIndex);
-        }
-
-        if (toIndex > size) {
-            throw new ArrayIndexOutOfBoundsException(toIndex);
-        }
-
-        if (fromIndex > toIndex) {
-            throw new ArrayIndexOutOfBoundsException("From Index: " + fromIndex + " - To Index: " + toIndex);
-        }
-    }
-
     @Override
     public Object[] toArray() {
 
@@ -948,99 +933,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
         }
     }
 
-    //TODO for test
-    void printClustered() {
-
-        StringBuilder str = new StringBuilder();
-
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            StringBuilder s = new StringBuilder("[");
-
-            if (node.elementDataPointer > 0) {
-                s.append(node.elementData[0]);
-            }
-
-            for (int i = 1; i < node.elementDataPointer; i++) {
-                s.append(",").append(node.elementData[i]);
-            }
-            s.append("]");
-
-            str.append(s);
-        }
-
-        System.out.println(str);
-    }
-
-    String printValuesClustered() {
-
-        StringBuilder str = new StringBuilder();
-
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            StringBuilder s = new StringBuilder("[");
-
-            if (node.elementDataPointer > 0) {
-                s.append(node.elementData[0]);
-            }
-
-            for (int i = 1; i < node.elementDataPointer; i++) {
-                s.append(",").append(node.elementData[i]);
-            }
-            s.append("]");
-
-            str.append(s);
-        }
-
-        return str.toString();
-    }
-
-    void printClusteredWithAllocations() {
-
-        StringBuilder str = new StringBuilder();
-
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            StringBuilder s = new StringBuilder("[");
-            //TODO not sure about >= ?? maybe it has to be >
-            if (node.elementDataPointer >= 0) {
-                s.append(node.elementData[0]);
-            }
-
-            for (int i = 1; i < node.elementData.length; i++) {
-                s.append(",").append(node.elementData[i]);
-            }
-            s.append("]");
-
-            str.append(s);
-        }
-
-        System.out.println(str);
-    }
-
-    String printValuesClusteredWithAllocations() {
-
-        StringBuilder str = new StringBuilder();
-
-        for (Node<T> node = first; node != null; node = node.next) {
-
-            StringBuilder s = new StringBuilder("[");
-            //TODO not sure about >= ?? maybe it has to be >
-            if (node.elementDataPointer >= 0) {
-                s.append(node.elementData[0]);
-            }
-
-            for (int i = 1; i < node.elementData.length; i++) {
-                s.append(",").append(node.elementData[i]);
-            }
-            s.append("]");
-
-            str.append(s);
-        }
-
-        return str.toString();
-    }
-
     static class Node<T> {
 
         Node<T> pre;
@@ -1091,27 +983,6 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
         void add(T element) {
             elementData[elementDataPointer++] = element;
-        }
-
-        // Getters for tests
-        int getElementDataLength() {
-            return elementData.length;
-        }
-
-        public int getStartingIndex() {
-            return startingIndex;
-        }
-
-        public int getEndingIndex() {
-            return endingIndex;
-        }
-
-        public T[] getElementData() {
-            return elementData;
-        }
-
-        public int getElementDataPointer() {
-            return elementDataPointer;
         }
 
         @Override
