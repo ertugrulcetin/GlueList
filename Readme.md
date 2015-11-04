@@ -28,8 +28,8 @@ GlueList:   39.2 milliseconds
 
 Adding(10M) Elements (5 Tests Avg.)
 
-LinkedList: 4118.2 milliseconds
-ArrayList:  8975.6 milliseconds
+LinkedList: 8975.6 milliseconds
+ArrayList:  4118.2 milliseconds
 GlueList:   3320.1 milliseconds
 
 ```
