@@ -19,6 +19,22 @@
  - Adding and removing operations much faster than ArrayList and LinkedList.
  - Searching operations nearly same with ArrayList and way better than LinkedList.
 
+```
+
+Adding(1M) Elements (5 Tests Avg.)
+
+LinkedList: 174.8 milliseconds
+ArrayList:  76.4 milliseconds
+GlueList:   39.2 milliseconds
+
+Adding(10M) Elements (5 Tests Avg.)
+
+LinkedList: 4118.2 milliseconds
+ArrayList:  8975.6 milliseconds
+GlueList:   3320.1 milliseconds
+
+```
+
 ```  
   "m" number of created nodes.
   "n" size of node array.
@@ -40,6 +56,7 @@
 #Licence
 ```
   Copyright 2015 Ertuğrul Çetin
+  
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
