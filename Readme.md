@@ -20,7 +20,6 @@
  - Searching operations nearly same with ArrayList and way better than LinkedList.
 
 ```
-
 Adding(1M) Elements (5 Tests Avg.)
 
 LinkedList: 174.8 milliseconds
@@ -34,12 +33,14 @@ ArrayList:  8975.6 milliseconds
 GlueList:   3320.1 milliseconds
 
 ```
+#Big-O Algorithm Complexity
 
-```  
+```
   "m" number of created nodes.
   "n" size of node array.
   If you insert 10_000_000 record into List there will be just 36 nodes.
   
+ 
   Best Case
   Add O(1)
   Remove O(1)
