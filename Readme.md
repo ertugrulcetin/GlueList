@@ -38,6 +38,7 @@ GlueList:   3320.1 milliseconds
 ```
   "m" number of created nodes.
   "n" size of node array.
+  
   If you insert 10_000_000 record into List there will be just 36 nodes.
   
   Best Case
