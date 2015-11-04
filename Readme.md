@@ -4,16 +4,16 @@
  
  - This implementation inspired from ArrayList and LinkedList working mechanism.
   
-  - Nodes holding data in arrays, in the beginning the world just like ArrayList ,inserts data into array one by one when there is no space for insertion to array
+ - Nodes holding data in arrays, in the beginning the world just like ArrayList ,inserts data into array one by one when there is no space for insertion to array
   new Node will be created and linked with the last Node.
   
-  - The array which belongs to newly created node has half of the size of list , just like ArrayList.
+ - The array which belongs to newly created node has half of the size of list , just like ArrayList.
   
-  - In ArrayList when there is no space for it it creates new array with double of old size and inserts old data into new one.
+ - In ArrayList when there is no space for it it creates new array with double of old size and inserts old data into new one.
   
-  - Unlike ArrayList GlueList does it dynamically way with creating new node so old data does NOT have to be moved to another array.
+ - Unlike ArrayList GlueList does it dynamically way with creating new node so old data does NOT have to be moved to another array.
   
-  - You can think that GlueList is dynamic version of ArrayList.
+ - You can think that GlueList is dynamic version of ArrayList.
   
 #Benchmark
  - Adding and removing operations much faster than ArrayList and LinkedList.
@@ -31,8 +31,8 @@
   Access O(1)
   
   Worst Case
-  Add O(nm)
-  Remove O(nm)
+  Add O(n*m)
+  Remove O(n*m)
   Search O(m)
   Access O(m)
 ```
