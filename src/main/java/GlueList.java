@@ -330,6 +330,8 @@ public class GlueList<T> extends AbstractList<T> implements List<T>, Cloneable, 
 
             modCount++;
             size += remainedDataLen;
+
+            return true;
         }
 
         return false;
