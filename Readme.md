@@ -52,9 +52,22 @@ GlueListJMH.test_6_add_1m_glue_list      thrpt    5  121,447 ± 12,033  ops/s
 GlueListJMH.test_7_add_10m_linked_list   thrpt    5    2,090 ±  1,890  ops/s
 GlueListJMH.test_8_add_10m_array_list    thrpt    5    5,713 ±  1,720  ops/s
 GlueListJMH.test_9_add_10m_glue_list     thrpt    5    9,644 ±  5,810  ops/s
-
-
 ```
+```
+Run complete. Total time: 00:19:37
+
+Benchmark                                 Mode  Cnt    Score   Error  Units
+GlueListJMH.test_1_add_500k_linked_list  thrpt   50  174,315 ± 8,554  ops/s
+GlueListJMH.test_2_add_500k_array_list   thrpt   50  207,423 ± 3,637  ops/s
+GlueListJMH.test_3_add_500k_glue_list    thrpt   50  286,250 ± 5,346  ops/s
+GlueListJMH.test_4_add_1m_linked_list    thrpt   50   77,277 ± 1,607  ops/s
+GlueListJMH.test_5_add_1m_array_list     thrpt   50   91,264 ± 3,051  ops/s
+GlueListJMH.test_6_add_1m_glue_list      thrpt   50  131,970 ± 3,007  ops/s
+GlueListJMH.test_7_add_10m_linked_list   thrpt   50    2,026 ± 0,195  ops/s
+GlueListJMH.test_8_add_10m_array_list    thrpt   50    6,085 ± 0,208  ops/s
+GlueListJMH.test_9_add_10m_glue_list     thrpt   50    8,842 ± 0,360  ops/s
+```
+
 #Big-O Algorithm Complexity
 
 ```

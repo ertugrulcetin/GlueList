@@ -11,7 +11,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  */
 public class JMHLauncher {
 
-    private static final int NB_ITERATIONS = 5;
+    private static final int NB_ITERATIONS = 50;
 
     /**
      * Methode de lancement du benchmark.
