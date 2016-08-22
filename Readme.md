@@ -15,7 +15,7 @@
   
  - You can think that GlueList is dynamic version of ArrayList.
   
-#Benchmark (original)
+#Benchmark
  - Adding and removing operations much faster than ArrayList and LinkedList.
  - Searching operations nearly same with ArrayList and way better than LinkedList.
 
