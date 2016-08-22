@@ -1,6 +1,10 @@
-import org.junit.Test;
+package com.ertu.collection;
 
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import com.ertu.collection.GlueList;
 
 public class GlueList_12_ClearTest {
 
@@ -15,7 +19,7 @@ public class GlueList_12_ClearTest {
 
         glueList.clear();
         assertEquals(0, glueList.size());
-        assertEquals(20, glueList.initialCapacity);
+        assertEquals(20, glueList.getInitialCapacity());
         assertEquals(true, TestUtil.isFirstAndLastNodesAreEqual(glueList));
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
@@ -33,7 +37,7 @@ public class GlueList_12_ClearTest {
         glueList.clear();
 
         assertEquals(0, glueList.size());
-        assertEquals(30, glueList.initialCapacity);
+        assertEquals(30, glueList.getInitialCapacity());
         assertEquals(true, TestUtil.isFirstAndLastNodesAreEqual(glueList));
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));
@@ -51,7 +55,7 @@ public class GlueList_12_ClearTest {
         glueList.clear();
 
         assertEquals(0, glueList.size());
-        assertEquals(10, glueList.initialCapacity);
+        assertEquals(10, glueList.getInitialCapacity());
         assertEquals(true, TestUtil.isFirstAndLastNodesAreEqual(glueList));
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));

@@ -1,10 +1,14 @@
-import org.junit.Test;
+package com.ertu.collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import org.junit.Test;
+
+import com.ertu.collection.GlueList;
 
 public class GlueList_1_ConstructorTest {
 
@@ -13,7 +17,7 @@ public class GlueList_1_ConstructorTest {
 
         GlueList<String> glueList = new GlueList<>();
 
-        assertEquals(true, glueList.first == glueList.last);
+        assertEquals(true, glueList.getFirst() == glueList.getLast());
         assertEquals(true, TestUtil.isItCorrectAfterAllDataDeleted(glueList));
         assertEquals(true, TestUtil.isNodesStartingAndEndingIndexesAreTrue(glueList));
         assertEquals(true, TestUtil.isNodesElementDataPointerSameWithNodeArrayLength(glueList));

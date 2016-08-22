@@ -1,4 +1,8 @@
+package com.ertu.collection;
+
 import org.junit.Test;
+
+import com.ertu.collection.GlueList;
 
 import java.util.ListIterator;
 

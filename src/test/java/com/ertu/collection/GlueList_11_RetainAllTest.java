@@ -1,4 +1,8 @@
+package com.ertu.collection;
+
 import org.junit.Test;
+
+import com.ertu.collection.GlueList;
 
 import static org.junit.Assert.assertEquals;
 
