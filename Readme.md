@@ -19,6 +19,7 @@
  - Adding and removing operations much faster than ArrayList and LinkedList.
  - Searching operations nearly same with ArrayList and way better than LinkedList.
 
+## ORIGINAL (time diff + SystemOut)
 ```
 Adding(1M) Elements (5 Tests Avg.)
 
@@ -33,6 +34,40 @@ ArrayList:  4118.2 milliseconds
 GlueList:   3320.1 milliseconds
 
 ```
+## JMH
+ - Prepare local for JMH : "mvn -e clean install"
+ - Launch Java Class (containing void main) : com.ertu.collection.jmh.GlueListJMH
+ - for eclipse developers : 3 tools available in "eclipse-tools" directory (you have to configure "mvn" variable in Eclipse Preferences "String subsitutions" pointing to your maven directory)
+
+```
+Run complete. Total time: 00:02:13
+
+Benchmark                                 Mode  Cnt    Score    Error  Units
+GlueListJMH.test_1_add_500k_linked_list  thrpt    5  182,338 ± 32,451  ops/s
+GlueListJMH.test_2_add_500k_array_list   thrpt    5  214,535 ±  7,479  ops/s
+GlueListJMH.test_3_add_500k_glue_list    thrpt    5  251,288 ± 14,355  ops/s
+GlueListJMH.test_4_add_1m_linked_list    thrpt    5   80,549 ± 10,526  ops/s
+GlueListJMH.test_5_add_1m_array_list     thrpt    5   93,010 ±  4,741  ops/s
+GlueListJMH.test_6_add_1m_glue_list      thrpt    5  121,447 ± 12,033  ops/s
+GlueListJMH.test_7_add_10m_linked_list   thrpt    5    2,090 ±  1,890  ops/s
+GlueListJMH.test_8_add_10m_array_list    thrpt    5    5,713 ±  1,720  ops/s
+GlueListJMH.test_9_add_10m_glue_list     thrpt    5    9,644 ±  5,810  ops/s
+```
+```
+Run complete. Total time: 00:19:37
+
+Benchmark                                 Mode  Cnt    Score   Error  Units
+GlueListJMH.test_1_add_500k_linked_list  thrpt   50  174,315 ± 8,554  ops/s
+GlueListJMH.test_2_add_500k_array_list   thrpt   50  207,423 ± 3,637  ops/s
+GlueListJMH.test_3_add_500k_glue_list    thrpt   50  286,250 ± 5,346  ops/s
+GlueListJMH.test_4_add_1m_linked_list    thrpt   50   77,277 ± 1,607  ops/s
+GlueListJMH.test_5_add_1m_array_list     thrpt   50   91,264 ± 3,051  ops/s
+GlueListJMH.test_6_add_1m_glue_list      thrpt   50  131,970 ± 3,007  ops/s
+GlueListJMH.test_7_add_10m_linked_list   thrpt   50    2,026 ± 0,195  ops/s
+GlueListJMH.test_8_add_10m_array_list    thrpt   50    6,085 ± 0,208  ops/s
+GlueListJMH.test_9_add_10m_glue_list     thrpt   50    8,842 ± 0,360  ops/s
+```
+
 #Big-O Algorithm Complexity
 
 ```

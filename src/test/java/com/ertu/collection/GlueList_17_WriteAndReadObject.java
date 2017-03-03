@@ -1,6 +1,10 @@
+package com.ertu.collection;
+
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import com.ertu.collection.GlueList;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
