@@ -1,4 +1,4 @@
-#GlueList ~ Fastest Java List implementation
+# GlueList ~ Fastest Java List implementation
 
  - GlueList is a brand new List implementation which is way faster than ArrayList and LinkedList.
  
@@ -15,7 +15,7 @@
   
  - You can think that GlueList is dynamic version of ArrayList.
   
-#Benchmark
+# Benchmark
  - Adding and removing operations much faster than ArrayList and LinkedList.
  - Searching operations nearly same with ArrayList and way better than LinkedList.
 
@@ -33,7 +33,7 @@ ArrayList:  4118.2 milliseconds
 GlueList:   3320.1 milliseconds
 
 ```
-#Big-O Algorithm Complexity
+# Big-O Algorithm Complexity
 
 ```
   "m" number of created nodes.
@@ -54,7 +54,7 @@ GlueList:   3320.1 milliseconds
   Access O(m)
 ```
 
-#Licence
+# Licence
 ```
   Copyright 2015 Ertuğrul Çetin
   
